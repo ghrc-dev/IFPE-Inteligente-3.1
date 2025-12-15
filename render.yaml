@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: mine-banco
-    env: python
-    buildCommand: |
-      pip install --upgrade pip
-      pip install -r requirements.txt
-    
-    startCommand: gunicorn deploy_banco.app:app
