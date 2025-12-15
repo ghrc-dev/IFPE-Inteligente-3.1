@@ -7,10 +7,10 @@ from google.cloud import firestore
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "ifpe-inteligente")
 
-API_KEY = os.environ["FIREBASE_API_KEY"]
+API_KEY = os.environ.get("FIREBASE_API_KEY")
 
 
-# ========== FUNÇÃO LOGIN FIREBASE ==========
+# ========= LOGIN FIREBASE =========
 def login_firebase(email, senha):
     url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={API_KEY}"
     payload = {
@@ -18,17 +18,22 @@ def login_firebase(email, senha):
         "password": senha,
         "returnSecureToken": True
     }
-    r = requests.post(url, json=payload, timeout=10)
-    return r.json()
+
+    try:
+        r = requests.post(url, json=payload, timeout=8)
+        return r.json()
+    except Exception as e:
+        print("ERRO LOGIN FIREBASE:", e)
+        return {}
 
 
-# ========== TELA INICIAL ==========
+# ========= TELA INICIAL =========
 @app.route("/")
 def index():
     return render_template("telainicial.html")
 
 
-# ========== CRIAR CONTA ==========
+# ========= CRIAR CONTA =========
 @app.route("/criarconta", methods=["GET", "POST"])
 def criarconta():
     if request.method == "POST":
@@ -57,7 +62,7 @@ def criarconta():
     return render_template("criarconta.html")
 
 
-# ========== LOGIN ==========
+# ========= LOGIN =========
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -76,7 +81,7 @@ def login():
     return render_template("telalogin.html")
 
 
-# ============ HOME ============
+# ========= HOME =========
 @app.route("/home")
 def home():
     if "user" not in session:
@@ -88,7 +93,7 @@ def home():
     return render_template("home.html", usuario=usuario)
 
 
-# ============ PERFIL ============
+# ========= PERFIL =========
 @app.route("/perfil")
 def perfil():
     if "user" not in session:
@@ -100,7 +105,7 @@ def perfil():
     return render_template("perfil.html", usuario=usuario)
 
 
-# ============ OUTRAS ROTAS ============
+# ========= CONFIG =========
 @app.route("/config")
 def configuracoes():
     if "user" not in session:
@@ -108,6 +113,7 @@ def configuracoes():
     return render_template("configuracoes.html")
 
 
+# ========= IFPE FLOW =========
 @app.route("/ifpeflow")
 def ifpeflow():
     if "user" not in session:
@@ -115,6 +121,7 @@ def ifpeflow():
     return render_template("ifpeflow.html")
 
 
+# ========= ECOSCAN =========
 @app.route("/ecoscan")
 def ecoscan():
     if "user" not in session:
@@ -122,6 +129,7 @@ def ecoscan():
     return render_template("ecoscan.html")
 
 
+# ========= HELPME =========
 @app.route("/helpme")
 def helpme():
     if "user" not in session:
@@ -133,31 +141,29 @@ def helpme():
     return render_template("helpme.html", usuario=usuario)
 
 
-# ============ REGISTRAR LIXO ============
+# ========= REGISTRAR LIXO =========
 @app.route("/registrar_lixo", methods=["POST"])
 def registrar_lixo():
     if "user" not in session:
         return jsonify({"erro": "não logado"}), 403
 
-    dados = request.get_json()
+    dados = request.get_json() or {}
     quantidade = int(dados.get("quantidade", 0))
-
-    pontos = quantidade  # 1 lixo = 1 ponto
 
     ref = db.collection("usuarios").document(session["user"])
     user_data = ref.get().to_dict() or {}
 
-    novo_total = user_data.get("pontos", 0) + pontos
+    novo_total = user_data.get("pontos", 0) + quantidade
     ref.update({"pontos": novo_total})
 
     return jsonify({
         "status": "ok",
-        "pontos_adicionados": pontos,
+        "pontos_adicionados": quantidade,
         "novo_total": novo_total
     })
 
 
-# ============ RANKING ============
+# ========= RANKING =========
 @app.route("/ranking")
 def ranking():
     user_id = session.get("user")
@@ -182,7 +188,7 @@ def ranking():
     return jsonify({"ranking": ranking})
 
 
-# ============ EDITAR PERFIL ============
+# ========= EDITAR PERFIL =========
 @app.route("/editarperfil")
 def editarperfil():
     if "user" not in session:
@@ -190,10 +196,8 @@ def editarperfil():
     return render_template("editarperfil.html")
 
 
-# ============ LOGOUT ============
+# ========= LOGOUT =========
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect("/login")
-
-app.run()
