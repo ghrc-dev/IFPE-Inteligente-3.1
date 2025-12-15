@@ -84,11 +84,24 @@ def login():
 # ========= HOME =========
 @app.route("/home")
 def home():
-    if "user" not in session:
+    if "user" not in session or not session["user"]:
+        session.clear()
         return redirect("/login")
 
-    doc = db.collection("usuarios").document(session["user"]).get()
-    usuario = doc.to_dict() if doc.exists else {}
+    try:
+        ref = db.collection("usuarios").document(session["user"])
+        doc = ref.get()
+
+        if not doc.exists:
+            session.clear()
+            return redirect("/login")
+
+        usuario = doc.to_dict()
+
+    except Exception as e:
+        print("ERRO HOME:", e)
+        session.clear()
+        return redirect("/login")
 
     return render_template("home.html", usuario=usuario)
 
@@ -96,11 +109,17 @@ def home():
 # ========= PERFIL =========
 @app.route("/perfil")
 def perfil():
-    if "user" not in session:
+    if "user" not in session or not session["user"]:
+        session.clear()
         return redirect("/login")
 
-    doc = db.collection("usuarios").document(session["user"]).get()
-    usuario = doc.to_dict() if doc.exists else {}
+    try:
+        doc = db.collection("usuarios").document(session["user"]).get()
+        usuario = doc.to_dict() if doc.exists else {}
+    except Exception as e:
+        print("ERRO PERFIL:", e)
+        session.clear()
+        return redirect("/login")
 
     return render_template("perfil.html", usuario=usuario)
 
@@ -132,11 +151,17 @@ def ecoscan():
 # ========= HELPME =========
 @app.route("/helpme")
 def helpme():
-    if "user" not in session:
+    if "user" not in session or not session["user"]:
+        session.clear()
         return redirect("/login")
 
-    doc = db.collection("usuarios").document(session["user"]).get()
-    usuario = doc.to_dict() if doc.exists else {}
+    try:
+        doc = db.collection("usuarios").document(session["user"]).get()
+        usuario = doc.to_dict() if doc.exists else {}
+    except Exception as e:
+        print("ERRO HELPME:", e)
+        session.clear()
+        return redirect("/login")
 
     return render_template("helpme.html", usuario=usuario)
 
@@ -201,3 +226,4 @@ def editarperfil():
 def logout():
     session.clear()
     return redirect("/login")
+
