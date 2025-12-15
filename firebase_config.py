@@ -3,8 +3,10 @@ import json
 import firebase_admin
 from firebase_admin import credentials, auth, firestore
 
-# Carrega credencial via variável de ambiente
 firebase_json = json.loads(os.environ["FIREBASE_CREDENTIALS"])
+
+# 🔥 CORREÇÃO CRÍTICA
+firebase_json["private_key"] = firebase_json["private_key"].replace("\\n", "\n")
 
 cred = credentials.Certificate(firebase_json)
 
