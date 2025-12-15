@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <div class="container">
   <a href="/" class="back">←</a>
 
-  <img src="static/logo-removebg-preview.png" class="logo" alt="Logo">
+  <img src="{{ url_for('static', filename='logo-removebg-preview.png') }}" class="logo">
 
   <h1>PLATAFORMA</h1>
   <h2>IFPE +INTELIGENTE</h2>
@@ -256,4 +256,5 @@ function toggleSenha(){
 
 </body>
 </html>
+
 
