@@ -196,3 +196,4 @@ def logout():
     session.clear()
     return redirect("/login")
 
+app.run()
