@@ -196,7 +196,7 @@ def ranking():
     usuarios = (
         db.collection("usuarios")
         .order_by("pontos", direction=firestore.Query.DESCENDING)
-        .limit(5)
+        
         .stream()
     )
 
@@ -226,4 +226,5 @@ def editarperfil():
 def logout():
     session.clear()
     return redirect("/login")
+
 
