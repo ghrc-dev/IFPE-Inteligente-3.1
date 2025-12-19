@@ -12,311 +12,293 @@
   <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
 
     body {
-      min-height: 100svh;
-      background: linear-gradient(180deg, #7A2BFF 0%, #4B5BFF 50%, #2E3C9E 100%);
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      color: white;
+      min-height:100svh;
+      background:linear-gradient(180deg,#7A2BFF 0%,#4B5BFF 50%,#2E3C9E 100%);
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      color:white;
     }
 
-    #loading {
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(180deg, #7A2BFF 0%, #19CFFF 100%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
+    #loading{
+      position:fixed;
+      inset:0;
+      background:linear-gradient(180deg,#7A2BFF 0%,#19CFFF 100%);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      z-index:9999;
     }
 
-    .recycle {
-      font-size: 70px;
-      animation: spin 1.5s linear infinite;
+    .recycle{ font-size:70px; animation:spin 1.5s linear infinite; }
+    @keyframes spin{ to{ transform:rotate(360deg);} }
+
+    .container{ width:100%; padding:20px 16px 160px; max-width:520px; }
+    h1{ font-size:1.6rem; }
+    h3{ font-size:.95rem; opacity:.9; }
+
+    .card{
+      background:rgba(255,255,255,.14);
+      backdrop-filter:blur(12px);
+      border-radius:18px;
+      padding:18px;
+      margin-top:18px;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    a.button{
+      display:block;
+      width:100%;
+      padding:14px 0;
+      border-radius:32px;
+      background:#47E895;
+      color:#003A1A;
+      font-weight:600;
+      text-align:center;
+      cursor:pointer;
     }
 
-    .container {
-      width: 100%;
-      padding: 20px 16px 160px;
-      max-width: 520px;
+    .popup-overlay{
+      position:fixed;
+      inset:0;
+      background:#00000090;
+      display:none;
+      justify-content:center;
+      align-items:center;
+      z-index:999;
     }
 
-    h1 { font-size: 1.6rem; }
-    h3 { font-size: .95rem; opacity: .9; }
-
-    .card {
-      background: rgba(255, 255, 255, .14);
-      backdrop-filter: blur(12px);
-      border-radius: 18px;
-      padding: 18px;
-      margin-top: 18px;
-    }
-
-    a.button {
-      display: block;
-      width: 100%;
-      padding: 14px 0;
-      border-radius: 32px;
-      background: #47E895;
-      color: #003A1A;
-      font-weight: 600;
-      text-align: center;
-      cursor: pointer;
-    }
-
-    .popup-overlay {
-      position: fixed;
-      inset: 0;
-      background: #00000090;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
-
-    .popup-card {
-      width: 92%;
-      max-width: 360px;
-      background: #fff;
-      color: #222;
-      padding: 22px;
-      border-radius: 18px;
+    .popup-card{
+      width:92%;
+      max-width:360px;
+      background:#fff;
+      color:#222;
+      padding:22px;
+      border-radius:18px;
     }
 
     .popup-card select,
-    .popup-card input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 10px;
-      border: 1px solid #bbb;
+    .popup-card input{
+      width:100%;
+      padding:10px;
+      margin:8px 0;
+      border-radius:10px;
+      border:1px solid #bbb;
     }
 
-    .btn-confirmar,
-    .btn-cancelar {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: none;
-      margin-top: 10px;
-      font-weight: 600;
-      cursor: pointer;
+    .btn-confirmar,.btn-cancelar{
+      width:100%;
+      padding:12px;
+      border-radius:12px;
+      border:none;
+      margin-top:10px;
+      font-weight:600;
+      cursor:pointer;
     }
 
-    .btn-confirmar { background: #47E895; }
-    .btn-cancelar { background: #ff4040; color: #fff; }
+    .btn-confirmar{ background:#47E895; }
+    .btn-cancelar{ background:#ff4040; color:#fff; }
 
-    #searchRanking {
-      width: 100%;
-      padding: 10px;
-      border-radius: 12px;
-      border: none;
-      margin: 10px 0;
+    #searchRanking{
+      width:100%;
+      padding:10px;
+      border-radius:12px;
+      border:none;
+      margin:10px 0;
     }
 
-    .ranking-box {
-      max-height: 320px;
-      overflow-y: auto;
-    }
+    .ranking-box{ max-height:320px; overflow-y:auto; }
 
     .navbar{
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  background:#0A1B7E;
-  display:flex;
-  justify-content:space-around;
-  padding:10px 0;
-  z-index:1;
-}
+      position:fixed;
+      bottom:0;
+      left:0;
+      width:100%;
+      background:#0A1B7E;
+      display:flex;
+      justify-content:space-around;
+      padding:10px 0;
+      z-index:1;
+    }
 
-.navbar a{
-  color:#fff;
-  text-decoration:none;
-  font-size:13px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-    .particle {
-  position: absolute;
-  border-radius: 50%;
-  opacity: .9;
-  animation: float 6s ease-in-out infinite;
-  z-index: 0;
-  pointer-events: none;
-}
+    .navbar a{
+      color:#fff;
+      text-decoration:none;
+      font-size:13px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
 
-.blue { background: #00C2FF; }
-.green { background: #11FF89; }
-.yellow { background: #FFD447; }
-.pink { background: #FF5C8D; }
+    .particle{
+      position:absolute;
+      border-radius:50%;
+      opacity:.9;
+      animation:float 6s ease-in-out infinite;
+      z-index:0;
+      pointer-events:none;
+    }
 
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-14px); }
-  100% { transform: translateY(0); }
-}
+    .blue{ background:#00C2FF; }
+    .green{ background:#11FF89; }
+    .yellow{ background:#FFD447; }
+    .pink{ background:#FF5C8D; }
+
+    @keyframes float{
+      0%{ transform:translateY(0); }
+      50%{ transform:translateY(-14px); }
+      100%{ transform:translateY(0); }
+    }
   </style>
 </head>
 
 <body>
-  <script>
-  const colors = ["blue", "green", "yellow", "pink"];
 
-  for (let i = 0; i < 28; i++) {
-    const b = document.createElement("span");
-    b.className = `particle ${colors[Math.floor(Math.random() * colors.length)]}`;
-
-    const size = Math.floor(Math.random() * 10) + 6;
-    b.style.width = size + "px";
-    b.style.height = size + "px";
-
-    b.style.top = Math.random() * 100 + "%";
-    b.style.left = Math.random() * 100 + "%";
-    b.style.animationDelay = Math.random() * 5 + "s";
-
+<script>
+  const colors=["blue","green","yellow","pink"];
+  for(let i=0;i<28;i++){
+    const b=document.createElement("span");
+    b.className=`particle ${colors[Math.floor(Math.random()*colors.length)]}`;
+    const size=Math.floor(Math.random()*10)+6;
+    b.style.width=size+"px";
+    b.style.height=size+"px";
+    b.style.top=Math.random()*100+"%";
+    b.style.left=Math.random()*100+"%";
+    b.style.animationDelay=Math.random()*5+"s";
     document.body.appendChild(b);
   }
 </script>
 
-  <div id="loading">
-    <div>
-      <div class="recycle">♻️</div>
-      <h2>IFPE + Inteligente</h2>
-    </div>
+<div id="loading">
+  <div>
+    <div class="recycle">♻️</div>
+    <h2>IFPE + Inteligente</h2>
+  </div>
+</div>
+
+<div id="popup" class="popup-overlay">
+  <div class="popup-card">
+    <h2>Registrar Reciclagem</h2>
+
+    <select id="tipo">
+      <option value="papel">Papel</option>
+      <option value="plastico">Plástico</option>
+      <option value="vidro">Vidro</option>
+      <option value="metal">Metal</option>
+      <option value="organico">Orgânico</option>
+    </select>
+
+    <input
+      type="number"
+      id="quantidade"
+      value="1"
+      inputmode="numeric"
+      oninput="
+        this.value=this.value.replace(/[^0-9]/g,'');
+        if(this.value===''||this.value==='0') this.value='1';
+        if(parseInt(this.value)>10) this.value='10';
+      "
+    >
+
+    <button class="btn-confirmar" onclick="registrarLixo()">Confirmar</button>
+    <button class="btn-cancelar" onclick="fecharPopup()">Cancelar</button>
+  </div>
+</div>
+
+<div class="container">
+  <img style="width:20%;" src="{{ url_for('static', filename='qr-removebg.png') }}">
+  <h1>Eco Scan</h1>
+
+  <div class="card">
+    <a class="button" onclick="abrirPopup()">Registrar Lixo</a>
   </div>
 
-  <div id="popup" class="popup-overlay">
-    <div class="popup-card">
-      <h2>Registrar Reciclagem</h2>
-
-      <select id="tipo">
-        <option value="papel">Papel</option>
-        <option value="plastico">Plástico</option>
-        <option value="vidro">Vidro</option>
-        <option value="metal">Metal</option>
-        <option value="organico">Orgânico</option>
-      </select>
-
-      <input type="number" id="quantidade" min="1" max="10" value="1">
-
-      <button class="btn-confirmar" onclick="registrarLixo()">Confirmar</button>
-      <button class="btn-cancelar" onclick="fecharPopup()">Cancelar</button>
-    </div>
+  <div class="card">
+    <h3>🏆 Ranking EcoScan</h3>
+    <input id="searchRanking" placeholder="🔍 Procurar pessoa..." onkeyup="filtrarRanking()">
+    <div id="ranking" class="ranking-box"></div>
   </div>
+</div>
 
-  <div class="container">
-    <img style="width: 20%;" src="{{ url_for('static', filename='qr-removebg.png') }}"><h1>Eco Scan</h1>
-
-    <div class="card">
-      <a class="button" onclick="abrirPopup()">Registrar Lixo</a>
-    </div>
-
-    <div class="card">
-      <h3>🏆 Ranking EcoScan</h3>
-      <input id="searchRanking" placeholder="🔍 Procurar pessoa..." onkeyup="filtrarRanking()">
-      <div id="ranking" class="ranking-box"></div>
-    </div>
-  </div>
-
-  <div class="navbar">
+<div class="navbar">
   <a href="/perfil">👤</a>
   <a href="/home">🏠</a>
   <a href="/config">⚙️</a>
 </div>
 
-  <script>
-    window.addEventListener("load", () => {
-      loading.style.opacity = "0";
-      setTimeout(() => loading.style.display = "none", 400);
-    });
+<script>
+  window.addEventListener("load",()=>{
+    loading.style.opacity="0";
+    setTimeout(()=>loading.style.display="none",400);
+  });
 
-    function abrirPopup() { popup.style.display = "flex"; }
-    function fecharPopup() { popup.style.display = "none"; }
+  function abrirPopup(){ popup.style.display="flex"; }
+  function fecharPopup(){ popup.style.display="none"; }
 
-    function registrarLixo() {
-      fetch("/registrar_lixo", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          tipo: tipo.value,
-          quantidade: parseInt(quantidade.value)
-        })
+  function registrarLixo(){
+    let qtd=parseInt(quantidade.value,10);
+    if(isNaN(qtd)||qtd<1) qtd=1;
+    if(qtd>10) qtd=10;
+    quantidade.value=qtd;
+
+    fetch("/registrar_lixo",{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({
+        tipo:tipo.value,
+        quantidade:qtd
       })
-        .then(r => r.json())
-        .then(() => {
-          fecharPopup();
-          carregarRanking();
-        });
-    }
+    })
+    .then(r=>r.json())
+    .then(()=>{
+      fecharPopup();
+      carregarRanking();
+    });
+  }
 
-    let rankingGlobal = [];
+  let rankingGlobal=[];
 
-    function carregarRanking() {
-      fetch("/ranking")
-        .then(res => res.json())
-        .then(data => {
-          rankingGlobal = (data.ranking || []).map((u, i) => ({
-            ...u,
-            posicao: i + 1
-          }));
-          renderizarRanking(rankingGlobal);
-        });
-    }
-
-    function renderizarRanking(lista) {
-      ranking.innerHTML = "";
-      const maior = rankingGlobal[0]?.pontos || 1;
-
-      lista.forEach(user => {
-        const percentual = (user.pontos / maior) * 100;
-
-        ranking.innerHTML += `
-          <div style="
-            background:${user.is_me ? "#20bf00d4" : "#ffffff15"};
-            padding:14px;
-            border-radius:14px;
-            margin-bottom:12px;
-          ">
-            <div style="display:flex;justify-content:space-between;">
-              <strong>
-                ${user.posicao === 1 ? "🥇" : user.posicao === 2 ? "🥈" : user.posicao === 3 ? "🥉" : ""}
-                ${user.posicao}º ${user.nome} ${user.is_me ? "(Você)" : ""}
-              </strong>
-              <span>${user.pontos} pts</span>
-            </div>
-            <div style="height:10px;background:#0003;border-radius:6px;margin-top:6px;">
-              <div style="height:100%;width:${percentual}%;background:#FFD447;"></div>
-            </div>
-          </div>
-        `;
+  function carregarRanking(){
+    fetch("/ranking")
+      .then(res=>res.json())
+      .then(data=>{
+        rankingGlobal=(data.ranking||[]).map((u,i)=>({...u,posicao:i+1}));
+        renderizarRanking(rankingGlobal);
       });
-    }
+  }
 
-    function filtrarRanking() {
-      const termo = searchRanking.value.toLowerCase();
-      renderizarRanking(
-        rankingGlobal.filter(u => u.nome.toLowerCase().includes(termo))
-      );
-    }
+  function renderizarRanking(lista){
+    ranking.innerHTML="";
+    const maior=rankingGlobal[0]?.pontos||1;
 
-    carregarRanking();
-  </script>
+    lista.forEach(user=>{
+      const percentual=(user.pontos/maior)*100;
+      ranking.innerHTML+=`
+        <div style="background:${user.is_me?"#20bf00d4":"#ffffff15"};padding:14px;border-radius:14px;margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;">
+            <strong>
+              ${user.posicao===1?"🥇":user.posicao===2?"🥈":user.posicao===3?"🥉":""}
+              ${user.posicao}º ${user.nome} ${user.is_me?"(Você)":""}
+            </strong>
+            <span>${user.pontos} pts</span>
+          </div>
+          <div style="height:10px;background:#0003;border-radius:6px;margin-top:6px;">
+            <div style="height:100%;width:${percentual}%;background:#FFD447;"></div>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  function filtrarRanking(){
+    const termo=searchRanking.value.toLowerCase();
+    renderizarRanking(rankingGlobal.filter(u=>u.nome.toLowerCase().includes(termo)));
+  }
+
+  carregarRanking();
+</script>
 
 </body>
 </html>
-
