@@ -11,29 +11,6 @@
 <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
 
 <style>
- .nav-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-}
-
-.nav-item:hover {
-  color: #007bff;
-}
-
-.foto-perfil {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.icon {
-  font-size: 18px;
-}
 *{
   margin:0;
   padding:0;
@@ -43,8 +20,7 @@
 
 body{
   min-height:100vh;
-  background:
-    linear-gradient(180deg,#6d27f5cc 0%,#3a52e0cc 50%,#263d9dcc 100%);
+  background:linear-gradient(180deg,#6d27f5cc 0%,#3a52e0cc 50%,#263d9dcc 100%);
   display:flex;
   justify-content:center;
   align-items:center;
@@ -69,11 +45,10 @@ body{
 }
 
 @keyframes spin{
-  from{transform:rotate(0)}
   to{transform:rotate(360deg)}
 }
 
-/* PARTICULAS */
+/* PARTÍCULAS */
 .particle{
   position:absolute;
   border-radius:50%;
@@ -83,9 +58,7 @@ body{
 }
 
 @keyframes float{
-  0%{transform:translateY(0)}
   50%{transform:translateY(-15px)}
-  100%{transform:translateY(0)}
 }
 
 .blue{background:#00C2FF}
@@ -97,7 +70,7 @@ body{
 .container{
   width:100%;
   max-width:420px;
-  padding:20px 20px 90px;
+  padding:20px 20px 110px;
   position:relative;
   z-index:2;
 }
@@ -119,7 +92,7 @@ body{
   margin:40px auto 15px;
 }
 
-/* TITULOS */
+/* TÍTULOS */
 .titulo-principal{
   text-align:center;
   font-size:16px;
@@ -146,8 +119,6 @@ body{
   margin-bottom:10px;
 }
 
-.card-azul{background:#1d8aff}
-.card-rosa{background:#ff4fa5}
 .card-verde{background:#2dcc77}
 
 .card a{
@@ -165,32 +136,33 @@ body{
   background:#001a54;
   display:flex;
   justify-content:space-around;
-  padding:12px 0;
+  align-items:center;
+  padding:10px 0;
   z-index:5;
 }
-  .nav-left,
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
 
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-}
-
-.navbar a{
-  color:#fff;
-  text-decoration:none;
-  font-size:13px;
+.nav-item{
   display:flex;
   flex-direction:column;
   align-items:center;
+  gap:4px;
+  color:#fff;
+  text-decoration:none;
+  font-size:12px;
+}
+
+.foto-perfil{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid #fff;
+}
+
+.icon-img{
+  width:26px;
+  height:26px;
+  object-fit:contain;
 }
 </style>
 </head>
@@ -208,9 +180,8 @@ body{
 
 <script>
 window.addEventListener("load",()=>{
-  const l=document.getElementById("loading");
-  l.style.opacity="0";
-  setTimeout(()=>l.remove(),400);
+  loading.style.opacity="0";
+  setTimeout(()=>loading.remove(),400);
 });
 </script>
 
@@ -220,11 +191,9 @@ for(let i=0;i<30;i++){
   const p=document.createElement("span");
   p.className=`particle ${colors[Math.floor(Math.random()*colors.length)]}`;
   const s=Math.random()*10+6;
-  p.style.width=s+"px";
-  p.style.height=s+"px";
+  p.style.width=p.style.height=s+"px";
   p.style.top=Math.random()*100+"%";
   p.style.left=Math.random()*100+"%";
-  p.style.animationDelay=Math.random()*5+"s";
   document.body.appendChild(p);
 }
 </script>
@@ -237,8 +206,6 @@ for(let i=0;i<30;i++){
 
 <p class="titulo-principal">PLATAFORMA</p>
 <h1 class="titulo-secundario">IFPE + INTELIGENTE</h1>
-
-
 
 <div class="card card-verde">
   <h3>📌 SOBRE:</h3>
@@ -253,37 +220,26 @@ for(let i=0;i<30;i++){
 </div>
 
 <div class="navbar">
-  <!-- Lado esquerdo -->
-  <div class="nav-left">
-    <a href="/perfil" class="nav-item">
-      <img 
-        id="fotoPerfil"
-        class="foto-perfil"
-        src="{{ usuario.foto if usuario.foto else url_for('static', filename='fotoexemplo.jpg') }}"
-        alt="Perfil">
-      <span>Perfil</span>
-    </a>
-  </div>
 
-  <!-- Lado direito -->
-  <div class="navbar">
-    <a href="/home" class="nav-item">
-      <span class="icon">🏠</span>
-      <span>Home</span>
-    </a>
+  <a href="/perfil" class="nav-item">
+    <img
+      class="foto-perfil"
+      src="{{ usuario.foto if usuario.foto else url_for('static', filename='fotoexemplo.jpg') }}"
+      alt="Perfil">
+    <span>Perfil</span>
+  </a>
 
-    <a href="/config" class="nav-item">
-      <span class="icon">⚙️</span>
-      <span>Configuração</span>
-    </a>
-  </div>
+  <a href="/home" class="nav-item">
+    <img src="{{ url_for('static', filename='homeimg.webp') }}" class="icon-img">
+    <span>Home</span>
+  </a>
+
+  <a href="/config" class="nav-item">
+    <img src="{{ url_for('static', filename='configimg.jpg') }}" class="icon-img">
+    <span>Config</span>
+  </a>
+
 </div>
 
 </body>
 </html>
-
-
-
-
-
-
