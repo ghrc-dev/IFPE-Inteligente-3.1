@@ -223,7 +223,9 @@ for(let i=0;i<25;i++){
 </div>
 
 <div class="navbar">
-  <a href="/perfil">👤</a>
+  <a href="/perfil"><img id="fotoPerfil"
+     src="{{ usuario.foto if usuario.foto else 'fotoexemplo.jpg' }}"
+     class="foto-perfil"></a>
   <a href="/home">🏠</a>
   <a href="/config">⚙️</a>
 </div>
@@ -430,5 +432,6 @@ function toggleApoio(){
 
 </body>
 </html>
+
 
 
