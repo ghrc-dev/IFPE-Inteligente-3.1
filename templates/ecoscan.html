@@ -12,14 +12,7 @@
   <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
 
   <style>
-    .nav-left,
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.nav-item {
+   .nav-item {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -27,13 +20,20 @@
   color: #333;
   font-weight: 500;
 }
-    .foto-perfil{
-  width:130px;
-  height:130px;
-  border-radius:50%;
-  border:4px solid white;
-  margin:15px auto;
-  object-fit:cover;
+
+.nav-item:hover {
+  color: #007bff;
+}
+
+.foto-perfil {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.icon {
+  font-size: 18px;
 }
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
 
@@ -347,6 +347,7 @@
 
 </body>
 </html>
+
 
 
 
