@@ -3,16 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Home - IFPE + Inteligente</title>
+<title>HelpMe IFPE</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
-<link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
-<link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
 
 <style>
-  /* ===== PARTICLES ===== */
+/* ===== PARTICLES ===== */
 .particle{
   position:absolute;
   border-radius:50%;
@@ -21,7 +18,6 @@
   z-index:0;
   pointer-events:none;
 }
-
 .blue{ background:#00C2FF; }
 .green{ background:#11FF89; }
 .yellow{ background:#FFD447; }
@@ -32,6 +28,7 @@
   50%{ transform:translateY(-14px); }
   100%{ transform:translateY(0); }
 }
+
 *{
   margin:0;
   padding:0;
@@ -59,7 +56,6 @@ body{
   padding:10px 0;
   z-index:10;
 }
-
 .nav-item{
   display:flex;
   flex-direction:column;
@@ -69,92 +65,102 @@ body{
   color:#fff;
   font-size:12px;
 }
-
-.nav-item:hover{
-  opacity:.85;
-}
-
-.icon-img{
-  width:26px;
-  height:26px;
-  object-fit:contain;
-}
-
+.icon-img{width:26px;height:26px}
 .foto-perfil{
   width:32px;
   height:32px;
   border-radius:50%;
-  object-fit:cover;
   border:2px solid #fff;
+  object-fit:cover;
 }
 
 /* ===== CONTAINER ===== */
 .container{
   max-width:420px;
   margin:0 auto;
-  padding:20px 18px 90px;
+  padding:20px 18px 100px;
 }
 
 /* ===== HEADER ===== */
 .header{
   text-align:center;
-  margin-bottom:28px;
+  margin-bottom:20px;
 }
-
-.header img{
-  width:90px;
-  margin-bottom:10px;
-}
-
 .header h1{
   font-size:22px;
   font-weight:700;
 }
 
-.header h2{
-  font-size:18px;
-  font-weight:600;
+/* ===== INPUT ===== */
+input{
+  width:100%;
+  padding:10px;
+  border-radius:12px;
+  border:none;
+  margin-bottom:16px;
 }
 
-/* ===== CARDS ===== */
-.card-app{
-  border-radius:22px;
-  padding:18px 16px;
-  margin-bottom:18px;
-  display:flex;
-  align-items:center;
-  gap:14px;
-  box-shadow:0 8px 18px rgba(0,0,0,.25);
+/* ===== LOCAIS ===== */
+.item{
+  background:#fff;
+  color:#000;
+  border-radius:18px;
+  padding:14px;
+  margin-bottom:12px;
   cursor:pointer;
-  transition:transform .2s ease, box-shadow .2s ease;
 }
-
-.card-app:active{
-  transform:scale(0.97);
-}
-
-.card-app img{
-  width:42px;
-}
-
-.card-app h3{
-  font-size:18px;
+.item span{
+  float:right;
   font-weight:700;
 }
+.item.livre{border-left:6px solid #11FF89}
+.item.ocupada{border-left:6px solid #FF5C8D}
 
-.card-app p{
+.info{
   font-size:14px;
-  opacity:.95;
+  margin-top:6px;
 }
 
-.card-link{
-  text-decoration:none;
-  color:inherit;
+/* ===== MODAL ===== */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:20;
 }
-
-.ecoscan{background:#19CFFF}
-.flow{background:#43E06C}
-.helpme{background:#F6C445}
+.modal-content{
+  background:#fff;
+  color:#000;
+  padding:20px;
+  border-radius:18px;
+  width:90%;
+  max-width:320px;
+}
+.modal-content input{
+  border:1px solid #ccc;
+}
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:10px;
+}
+.btn-ok{
+  background:#4B5BFF;
+  color:#fff;
+  border:none;
+  padding:8px 12px;
+  border-radius:8px;
+}
+.btn-cancel{
+  background:#ccc;
+  border:none;
+  padding:8px 12px;
+  border-radius:8px;
+}
 </style>
 </head>
 
@@ -163,82 +169,150 @@ body{
 <div class="container">
 
   <div class="header">
-    <img src="{{ url_for('static', filename='logo-removebg-preview.png') }}">
-    <h1>PLATAFORMA</h1>
-    <h2>IFPE + INTELIGENTE</h2>
+    <h1>HelpMe IFPE</h1>
   </div>
 
-  <a href="/ecoscan" class="card-link">
-    <div class="card-app ecoscan">
-      <img src="{{ url_for('static', filename='qr.png') }}">
-      <div>
-        <h3>EcoScan IFPE</h3>
-        <p>Descarte sustentável com pontos.</p>
-      </div>
-    </div>
-  </a>
+  <input id="pesquisa" placeholder="Pesquisar local..." oninput="carregarLocais()">
 
-  <a href="/ifpeflow" class="card-link">
-    <div class="card-app flow">
-      <img src="{{ url_for('static', filename='flow.png') }}">
-      <div>
-        <h3>IFPE Flow</h3>
-        <p>Lotação e disponibilidade do campus em tempo real.</p>
-      </div>
-    </div>
-  </a>
+  <h3>Salas</h3>
+  <div id="salas"></div>
 
-  <a href="/helpme" class="card-link">
-    <div class="card-app helpme">
-      <img src="{{ url_for('static', filename='help.png') }}">
-      <div>
-        <h3>HelpMe IFPE</h3>
-        <p>Seu assistente virtual acadêmico</p>
-      </div>
-    </div>
-  </a>
+  <h3>Laboratórios</h3>
+  <div id="labs"></div>
+
+  <h3>Áreas</h3>
+  <div id="areas"></div>
+
+  <h3>Ocupadas</h3>
+  <div id="ocupadas"></div>
+  <p id="avisoLivres">Nenhum local ocupado</p>
 
 </div>
 
-<!-- ===== NAVBAR ===== -->
-<div class="navbar">
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h3 id="modalTitulo"></h3>
+    <input id="modalTurma" placeholder="Turma">
+    <input id="modalHorario" placeholder="Até que horas?">
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
+      <button class="btn-ok" onclick="confirmarModal()">Confirmar</button>
+    </div>
+  </div>
+</div>
 
+<!-- NAVBAR -->
+<div class="navbar">
   <a href="/perfil" class="nav-item">
-    <img 
-      class="foto-perfil"
-      src="{{ usuario.foto if usuario.foto else url_for('static', filename='fotoexemplo.jpg') }}"
-      alt="Perfil">
+    <img class="foto-perfil"
+      src="{{ usuario.foto if usuario.foto else url_for('static', filename='fotoexemplo.jpg') }}">
     <span>Perfil</span>
   </a>
-
   <a href="/home" class="nav-item">
     <img src="{{ url_for('static', filename='homeimg.png') }}" class="icon-img">
     <span>Home</span>
   </a>
-
   <a href="/config" class="nav-item">
     <img src="{{ url_for('static', filename='configimg.png') }}" class="icon-img">
     <span>Config</span>
   </a>
-
 </div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
 <script>
-  const colors=["blue","green","yellow","pink"];
-for(let i=0;i<28;i++){
-  const b=document.createElement("span");
-  b.className=`particle ${colors[Math.floor(Math.random()*colors.length)]}`;
-  const size=Math.floor(Math.random()*10)+6;
-  b.style.width=size+"px";
-  b.style.height=size+"px";
-  b.style.top=Math.random()*100+"%";
-  b.style.left=Math.random()*100+"%";
-  b.style.animationDelay=Math.random()*5+"s";
-  document.body.appendChild(b);
+firebase.initializeApp({
+  apiKey:"AIzaSyA23RqXJ2Z92E-B19hajBi5uumh6XbGvpw",
+  authDomain:"integra-tech.firebaseapp.com",
+  projectId:"integra-tech"
+});
+
+const db=firebase.firestore();
+const salas=labs=areas=ocupadas=null;
+const avisoLivres=document.getElementById("avisoLivres");
+const pesquisa=document.getElementById("pesquisa");
+const modal=document.getElementById("modal");
+const modalTitulo=document.getElementById("modalTitulo");
+const modalTurma=document.getElementById("modalTurma");
+const modalHorario=document.getElementById("modalHorario");
+
+let localAtual=null, refAtual=null;
+
+async function carregarLocais(){
+  document.getElementById("salas").innerHTML="";
+  document.getElementById("labs").innerHTML="";
+  document.getElementById("areas").innerHTML="";
+  document.getElementById("ocupadas").innerHTML="";
+  let existe=false;
+
+  const snap=await db.collection("locais").get();
+  snap.forEach(d=>{
+    const s=d.data();
+    if(!s.nome.toLowerCase().includes(pesquisa.value.toLowerCase()))return;
+
+    const div=document.createElement("div");
+    div.className=`item ${s.status}`;
+    div.innerHTML=`
+      ${s.nome}
+      <span>${s.status.toUpperCase()}</span>
+      ${s.status==="ocupada"?`
+      <div class="info">🏫 ${s.turma}<br>⏰ ${s.horario}</div>`:""}
+    `;
+    div.onclick=()=>abrirModal(d.ref,s);
+
+    if(s.status==="ocupada"){
+      existe=true;
+      document.getElementById("ocupadas").appendChild(div);
+    }else if(s.tipo==="lab"){
+      document.getElementById("labs").appendChild(div);
+    }else if(s.tipo==="area"){
+      document.getElementById("areas").appendChild(div);
+    }else{
+      document.getElementById("salas").appendChild(div);
+    }
+  });
+
+  avisoLivres.style.display=existe?"none":"block";
+}
+
+function abrirModal(ref,local){
+  refAtual=ref; localAtual=local;
+  modalTitulo.innerText=local.status==="livre"?"Ocupar local":"Finalizar atividade";
+  modalTurma.style.display=modalHorario.style.display=local.status==="livre"?"block":"none";
+  modal.style.display="flex";
+}
+function fecharModal(){modal.style.display="none"}
+
+async function confirmarModal(){
+  if(localAtual.status==="livre"){
+    await refAtual.update({
+      status:"ocupada",
+      turma:modalTurma.value,
+      horario:modalHorario.value
+    });
+  }else{
+    await refAtual.update({status:"livre",turma:"",horario:""});
+  }
+  fecharModal(); carregarLocais();
+}
+
+carregarLocais();
+</script>
+
+<script>
+const colors=["blue","green","yellow","pink"];
+for(let i=0;i<26;i++){
+  const p=document.createElement("span");
+  p.className=`particle ${colors[Math.floor(Math.random()*4)]}`;
+  const s=Math.random()*10+6;
+  p.style.width=p.style.height=s+"px";
+  p.style.top=Math.random()*100+"%";
+  p.style.left=Math.random()*100+"%";
+  document.body.appendChild(p);
 }
 </script>
 
 </body>
 </html>
-
-
-
