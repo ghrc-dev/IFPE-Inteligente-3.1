@@ -49,6 +49,7 @@ def criarconta():
                 "email": request.form["email"],
                 "curso": request.form["curso"],
                 "turma": request.form["serie"],
+                "foto": "https://res.cloudinary.com/dvb5l091v/image/upload/v1766287791/glfmphp1d2vkok7m3e8p.png"
                 "pontos": 0,
                 "locais_visitados": []
             })
@@ -274,6 +275,7 @@ def editarperfil():
 def logout():
     session.clear()
     return redirect("/login")
+
 
 
 
