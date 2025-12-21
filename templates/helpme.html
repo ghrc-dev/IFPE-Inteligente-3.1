@@ -110,9 +110,7 @@ body{
 </div>
 
 <script>
-window.onload=()=>setTimeout(()=>{
-  loading.style.display="none"
-},400)
+window.onload=()=>setTimeout(()=>loading.style.display="none",400);
 </script>
 
 <script>
@@ -148,7 +146,7 @@ for(let i=0;i<25;i++){
     <div class="buttons">
       <a class="btn blue" href="https://sites.google.com/jaboatao.ifpe.edu.br/ensino/secretaria">Rematrícula</a>
       <a class="btn yellow" href="#">Agenda</a>
-      <button class="btn green" onclick="mostrarApoio()">Apoio acadêmico</button>
+      <button class="btn green" id="btnApoio" onclick="toggleApoio()">Apoio acadêmico</button>
     </div>
 
     <!-- HORÁRIOS -->
@@ -156,15 +154,25 @@ for(let i=0;i<25;i++){
       <h4>Meus horários</h4>
 
       <div class="filters">
-        <select id="serie"><option value="1">1º</option><option value="2">2º</option><option value="3">3º</option></select>
-        <select id="turma"><option>A</option><option>B</option></select>
-        <select id="dia">
-          <option value="segunda">Seg</option>
-          <option value="terca">Ter</option>
-          <option value="quarta">Qua</option>
-          <option value="quinta">Qui</option>
-          <option value="sexta">Sex</option>
+        <select id="serie">
+          <option value="1">1º Ano</option>
+          <option value="2">2º Ano</option>
+          <option value="3">3º Ano</option>
         </select>
+
+        <select id="turma">
+          <option value="A">Turma A</option>
+          <option value="B">Turma B</option>
+        </select>
+
+        <select id="dia">
+          <option value="segunda">Segunda</option>
+          <option value="terca">Terça</option>
+          <option value="quarta">Quarta</option>
+          <option value="quinta">Quinta</option>
+          <option value="sexta">Sexta</option>
+        </select>
+
         <button onclick="mostrarHorarios()">Ver</button>
       </div>
 
@@ -182,10 +190,6 @@ for(let i=0;i<25;i++){
         <tr><td>Coordenação</td><td><a href="mailto:coord@ifpe.edu.br">coord@ifpe.edu.br</a></td></tr>
         <tr><td>Secretaria</td><td><a href="mailto:secretaria@ifpe.edu.br">secretaria@ifpe.edu.br</a></td></tr>
       </table>
-
-      <button class="btn blue" style="width:100%;margin-top:12px" onclick="voltarHorarios()">
-        Voltar aos horários
-      </button>
     </div>
 
   </div>
@@ -371,18 +375,29 @@ const grade = {
 function mostrarHorarios(){
   const s=serie.value,t=turma.value,d=dia.value;
   const aulas=grade[s]?.[t]?.[d];
-  scheduleList.innerHTML=aulas?
-    aulas.map((a,i)=>`<div class="schedule-item"><span>${a}</span><span>${horarios[i]}</span></div>`).join("")
-    :"<p>Sem aulas.</p>";
+  scheduleList.innerHTML=aulas
+    ? aulas.map((a,i)=>`<div class="schedule-item"><span>${a}</span><span>${horarios[i]}</span></div>`).join("")
+    : "<p>Sem aulas.</p>";
 }
 
-function mostrarApoio(){
-  horariosBox.style.display="none";
-  apoioBox.style.display="block";
-}
-function voltarHorarios(){
-  apoioBox.style.display="none";
-  horariosBox.style.display="block";
+function toggleApoio(){
+  const horariosBox=document.getElementById("horariosBox");
+  const apoioBox=document.getElementById("apoioBox");
+  const btn=document.getElementById("btnApoio");
+
+  if(apoioBox.style.display==="none"){
+    horariosBox.style.display="none";
+    apoioBox.style.display="block";
+    btn.innerText="Horário";
+    btn.classList.remove("green");
+    btn.classList.add("blue");
+  }else{
+    apoioBox.style.display="none";
+    horariosBox.style.display="block";
+    btn.innerText="Apoio acadêmico";
+    btn.classList.remove("blue");
+    btn.classList.add("green");
+  }
 }
 </script>
 
