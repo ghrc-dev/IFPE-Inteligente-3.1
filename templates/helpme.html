@@ -127,6 +127,23 @@ body{
   padding:10px 0
 }
 .navbar a{color:#fff;text-decoration:none;font-size:18px}
+  .nav-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.nav-item:hover {
+  color: #007bff;
+}
+
+
+.icon {
+  font-size: 18px;
+}
 </style>
 </head>
 
@@ -231,12 +248,32 @@ for(let i=0;i<25;i++){
 </div>
 
 <div class="navbar">
-  <a href="/perfil"><img id="fotoPerfil"
-     src="{{ usuario.foto if usuario.foto else 'fotoexemplo.jpg' }}"
-     class="foto-perfil"></a>
-  <a href="/home">🏠</a>
-  <a href="/config">⚙️</a>
+  <!-- Lado esquerdo -->
+  <div class="nav-left">
+    <a href="/perfil" class="nav-item">
+      <img 
+        id="fotoPerfil"
+        class="foto-perfil"
+        src="{{ usuario.foto if usuario.foto else url_for('static', filename='fotoexemplo.jpg') }}"
+        alt="Perfil">
+      <span>Perfil</span>
+    </a>
+  </div>
+
+  <!-- Lado direito -->
+  <div class="nav-right">
+    <a href="/home" class="nav-item">
+      <span class="icon">🏠</span>
+      <span>Home</span>
+    </a>
+
+    <a href="/config" class="nav-item">
+      <span class="icon">⚙️</span>
+      <span>Configuração</span>
+    </a>
+  </div>
 </div>
+
 
 <script>
 const horarios=[
@@ -440,6 +477,7 @@ function toggleApoio(){
 
 </body>
 </html>
+
 
 
 
