@@ -222,8 +222,23 @@ body{
   </a>
 
 </div>
+<script>
+  const colors=["blue","green","yellow","pink"];
+for(let i=0;i<28;i++){
+  const b=document.createElement("span");
+  b.className=`particle ${colors[Math.floor(Math.random()*colors.length)]}`;
+  const size=Math.floor(Math.random()*10)+6;
+  b.style.width=size+"px";
+  b.style.height=size+"px";
+  b.style.top=Math.random()*100+"%";
+  b.style.left=Math.random()*100+"%";
+  b.style.animationDelay=Math.random()*5+"s";
+  document.body.appendChild(b);
+}
+</script>
 
 </body>
 </html>
+
 
 
