@@ -127,25 +127,73 @@ def perfil():
 # ========= CONFIG =========
 @app.route("/config")
 def configuracoes():
-    if "user" not in session:
+    if "user" not in session or not session["user"]:
+        session.clear()
         return redirect("/login")
-    return render_template("configuracoes.html")
+
+    try:
+        ref = db.collection("usuarios").document(session["user"])
+        doc = ref.get()
+
+        if not doc.exists:
+            session.clear()
+            return redirect("/login")
+
+        usuario = doc.to_dict()
+
+    except Exception as e:
+        print("ERRO HOME:", e)
+        session.clear()
+        return redirect("/login")
+    return render_template("configuracoes.html", usuario=usuario)
 
 
 # ========= IFPE FLOW =========
 @app.route("/ifpeflow")
 def ifpeflow():
-    if "user" not in session:
+    if "user" not in session or not session["user"]:
+        session.clear()
         return redirect("/login")
-    return render_template("ifpeflow.html")
+
+    try:
+        ref = db.collection("usuarios").document(session["user"])
+        doc = ref.get()
+
+        if not doc.exists:
+            session.clear()
+            return redirect("/login")
+
+        usuario = doc.to_dict()
+
+    except Exception as e:
+        print("ERRO HOME:", e)
+        session.clear()
+        return redirect("/login")
+    return render_template("ifpeflow.html", usuario=usuario)
 
 
 # ========= ECOSCAN =========
 @app.route("/ecoscan")
 def ecoscan():
-    if "user" not in session:
+    if "user" not in session or not session["user"]:
+        session.clear()
         return redirect("/login")
-    return render_template("ecoscan.html")
+
+    try:
+        ref = db.collection("usuarios").document(session["user"])
+        doc = ref.get()
+
+        if not doc.exists:
+            session.clear()
+            return redirect("/login")
+
+        usuario = doc.to_dict()
+
+    except Exception as e:
+        print("ERRO HOME:", e)
+        session.clear()
+        return redirect("/login")
+    return render_template("ecoscan.html", usuario=usuario)
 
 
 # ========= HELPME =========
@@ -226,5 +274,6 @@ def editarperfil():
 def logout():
     session.clear()
     return redirect("/login")
+
 
 
