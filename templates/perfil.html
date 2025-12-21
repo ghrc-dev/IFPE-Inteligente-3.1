@@ -154,7 +154,7 @@ body{
   border-radius: 50%;
   object-fit: cover;
 }
-.foto-perfill {
+.fotoGrande {
   width:130px;
   height:130px;
   border-radius:50%;
@@ -276,9 +276,9 @@ window.addEventListener("load", () => {
 
 <img src="static\logo-removebg-preview.png" class="logo">
 
-<img id="fotoPerfill"
+<img id="fotoGrande"
      src="{{ usuario.foto if usuario.foto else 'fotoexemplo.jpg' }}"
-     class="foto-perfil">
+     class="fotoGrande">
 
 <div class="card-azul">
   <h3>MEUS DADOS:</h3>
@@ -443,6 +443,7 @@ for(let i=0;i<30;i++){
 
 </body>
 </html>
+
 
 
 
