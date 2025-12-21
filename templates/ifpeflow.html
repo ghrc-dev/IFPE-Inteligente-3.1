@@ -157,6 +157,34 @@
     <p>Controle de ocupação de ambientes do campus.</p>
   </div>
 </div>
+   <div class="container">
+    <div class="header">
+      <img style="width: 10%;" src="{{ url_for('static',filename='flow.png') }}">
+      <h2>PLATAFORMA</h2>
+      <h1>IFPE + INTELIGENTE</h1>
+    </div>
+
+    <div class="card">
+      <h2>IFPE Flow</h2>
+
+      <button class="add-sala" onclick="adicionarLocal()">➕ Adicionar Local</button>
+      <input id="pesquisa" placeholder="🔍 Procurar local..." onkeyup="carregarLocais()">
+
+
+      <h3 class="secao">🚫 Ocupadas</h3>
+      <div id="ocupadas" class="lista"></div>
+      <div id="avisoLivres">✅ Todas livres</div>
+
+      <h3 class="secao">🏫 Salas</h3>
+      <div id="salas" class="lista"></div>
+
+      <h3 class="secao">🧪 Laboratórios</h3>
+      <div id="labs" class="lista"></div>
+
+      <h3 class="secao">🌳 Áreas Diversas</h3>
+      <div id="areas" class="lista"></div>
+    </div>
+  </div>
 
 <div class="navbar">
 
@@ -179,8 +207,108 @@
   </a>
 
 </div>
+  <!-- MODAL -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h3 id="modalTitulo"></h3>
+      <input id="modalTurma" placeholder="Turma">
+      <input id="modalHorario" placeholder="Até que horas?">
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
+        <button class="btn-ok" onclick="confirmarModal()">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+  <script>
+
+    window.addEventListener("load", () => {
+      loading.style.opacity = 0;
+      setTimeout(() => loading.style.display = "none", 400);
+    });
+
+    firebase.initializeApp({
+      apiKey: "AIzaSyA23RqXJ2Z92E-B19hajBi5uumh6XbGvpw",
+      authDomain: "integra-tech.firebaseapp.com",
+      projectId: "integra-tech"
+    });
+
+    const db = firebase.firestore();
+    let localAtual = null, refAtual = null;
+
+    async function carregarLocais() {
+      salas.innerHTML = "";
+      labs.innerHTML = "";
+      areas.innerHTML = "";
+      ocupadas.innerHTML = "";
+
+      const termo = pesquisa.value.toLowerCase();
+      let existeOcupada = false;
+
+      const snap = await db.collection("locais").get();
+      snap.forEach(d => {
+        const s = d.data();
+        if (!s.nome.toLowerCase().includes(termo)) return;
+
+        const div = document.createElement("div");
+        div.className = `item ${s.status}`;
+        div.innerHTML = `
+      ${s.nome}
+      <span>${s.status.toUpperCase()}</span>
+      ${s.status === "ocupada" ? `
+        <div class="info">
+          🏫 ${s.turma}<br>
+          ⏰ ${s.horario}
+        </div>` : ""}
+    `;
+        div.onclick = () => abrirModal(d.ref, s);
+
+        if (s.status === "ocupada") {
+          existeOcupada = true;
+          ocupadas.appendChild(div);
+        } else {
+          if (s.tipo === "lab") labs.appendChild(div);
+          else if (s.tipo === "area") areas.appendChild(div);
+          else salas.appendChild(div);
+        }
+      });
+
+      avisoLivres.style.display = existeOcupada ? "none" : "block";
+    }
+
+    function abrirModal(ref, local) {
+      refAtual = ref; localAtual = local;
+      modalTitulo.innerText = local.status === "livre" ? "Ocupar local" : "Finalizar atividade";
+      modalTurma.style.display = modalHorario.style.display = local.status === "livre" ? "block" : "none";
+      modal.style.display = "flex";
+    }
+    function fecharModal() { modal.style.display = "none" }
+    async function confirmarModal() {
+      if (localAtual.status === "livre") {
+        await refAtual.update({
+          status: "ocupada",
+          turma: modalTurma.value,
+          horario: modalHorario.value
+        });
+      } else {
+        await refAtual.update({ status: "livre", turma: "", horario: "" });
+      }
+      fecharModal(); carregarLocais();
+    }
+    function adicionarLocal() {
+      const nome = prompt("Nome:");
+      const tipo = prompt("sala / lab / area");
+      if (nome && tipo) db.collection("locais").add({ nome, tipo, status: "livre", turma: "", horario: "" });
+    }
+
+    carregarLocais();
+  </script>
 
 </body>
 </html>
+
 
 
