@@ -1,274 +1,220 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IFPE Flow</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HelpMe IFPE</title>
 
-  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
 
-    body {
-      min-height: 100vh;
-      background: linear-gradient(180deg, #7A2BFF 0%, #4B5BFF 50%, #2E3C9E 100%);
-      color: #fff;
-      overflow-x: hidden;
-    }
+body{
+  background:#f4f6fc;
+  padding-bottom:80px;
+}
 
-    /* PARTÍCULAS */
-    .particle {
-      position: absolute;
-      border-radius: 50%;
-      opacity: .9;
-      animation: float 6s ease-in-out infinite;
-      z-index: -1;
-      pointer-events: none;
-    }
+/* LOADING */
+#loading{
+  position:fixed;
+  inset:0;
+  background:#0A1B7E;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:22px;
+  z-index:99;
+  transition:.4s;
+}
 
-    .blue { background:#00C2FF }
-    .green { background:#11FF89 }
-    .yellow { background:#FFD447 }
-    .pink { background:#FF5C8D }
+/* TOPO */
+header{
+  padding:15px;
+  background:#0A1B7E;
+  color:#fff;
+  text-align:center;
+  font-weight:600;
+}
 
-    @keyframes float {
-      50% { transform: translateY(-14px); }
-    }
+/* PESQUISA */
+.pesquisa{
+  padding:15px;
+}
+.pesquisa input{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
 
-    /* LOADING */
-    #loading {
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(180deg,#7A2BFF,#19CFFF);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
+/* SEÇÕES */
+section{
+  padding:15px;
+}
+section h3{
+  margin-bottom:10px;
+}
 
-    .recycle {
-      font-size: 70px;
-      animation: spin 1.5s linear infinite;
-    }
+/* ITENS */
+.item{
+  background:#fff;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:10px;
+  cursor:pointer;
+  border-left:6px solid #ccc;
+}
+.item span{
+  float:right;
+  font-weight:600;
+}
+.item.livre{border-color:#1cc88a}
+.item.ocupada{border-color:#e74a3b}
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+.info{
+  margin-top:8px;
+  font-size:14px;
+  color:#555;
+}
 
-    /* CONTAINER */
-    .container {
-      max-width: 420px;
-      margin: auto;
-      padding: 20px 18px 110px;
-    }
+/* AVISO */
+#avisoLivres{
+  text-align:center;
+  color:#777;
+}
 
-    .header {
-      text-align: center;
-      margin-bottom: 22px;
-    }
+/* MODAL */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:20;
+}
+.modal-content{
+  background:#fff;
+  padding:20px;
+  border-radius:12px;
+  width:90%;
+  max-width:320px;
+}
+.modal-content h3{
+  margin-bottom:10px;
+}
+.modal-content input{
+  width:100%;
+  padding:8px;
+  margin:6px 0;
+}
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:10px;
+}
+.btn-cancel{
+  background:#ccc;
+  border:none;
+  padding:8px 12px;
+  border-radius:6px;
+}
+.btn-ok{
+  background:#0A1B7E;
+  color:#fff;
+  border:none;
+  padding:8px 12px;
+  border-radius:6px;
+}
 
-    .card {
-      background: rgba(255,255,255,.14);
-      backdrop-filter: blur(12px);
-      border-radius: 22px;
-      padding: 18px;
-      box-shadow: 0 8px 18px rgba(0,0,0,.25);
-    }
-
-    .add-sala {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 32px;
-      background: #47E895;
-      color: #003A1A;
-      font-weight: 600;
-      margin-bottom: 12px;
-      cursor: pointer;
-    }
-
-    #pesquisa {
-      width: 100%;
-      padding: 12px;
-      border-radius: 14px;
-      border: none;
-      margin-bottom: 14px;
-    }
-
-    .secao {
-      margin: 18px 0 8px;
-      font-weight: 600;
-      border-bottom: 1px solid rgba(255,255,255,.4);
-    }
-
-    .lista {
-      max-height: 220px;
-      overflow-y: auto;
-    }
-
-    .item {
-      padding: 14px;
-      border-radius: 16px;
-      margin-bottom: 12px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .livre { background: #43E06C; color:#003A1A }
-    .ocupada { background: #FF5C5C; }
-
-    .item span {
-      float: right;
-      font-size: 12px;
-    }
-
-    .info {
-      font-size: 13px;
-      margin-top: 6px;
-    }
-
-    #avisoLivres {
-      display: none;
-      text-align: center;
-      font-weight: bold;
-      margin: 10px 0;
-    }
-
-    /* NAVBAR */
-    .navbar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: #0A1B7E;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 10px 0;
-      z-index: 10;
-    }
-
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      text-decoration: none;
-      color: #fff;
-      font-size: 12px;
-    }
-
-    .icon-img {
-      width: 26px;
-      height: 26px;
-    }
-
-    .foto-perfil {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #fff;
-    }
-
-    /* MODAL */
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.6);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .modal-content {
-      background: #fff;
-      color: #000;
-      padding: 20px;
-      border-radius: 18px;
-      width: 90%;
-      max-width: 340px;
-      text-align: center;
-    }
-
-    .modal-content input {
-      width: 100%;
-      padding: 10px;
-      margin: 6px 0;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .btn-ok { background:#47E895; border:none; padding:10px; border-radius:10px; }
-    .btn-cancel { background:#ff4040; color:#fff; border:none; padding:10px; border-radius:10px; }
-  </style>
+/* NAVBAR */
+.navbar{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:#0A1B7E;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0;
+  z-index:10;
+}
+.nav-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  color:#fff;
+  text-decoration:none;
+  font-size:12px;
+}
+.icon-img{
+  width:26px;
+  height:26px;
+}
+.foto-perfil{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:2px solid #fff;
+  object-fit:cover;
+}
+</style>
 </head>
 
 <body>
 
-<script>
-  const colors=["blue","green","yellow","pink"];
-  for(let i=0;i<25;i++){
-    const p=document.createElement("span");
-    p.className=`particle ${colors[Math.floor(Math.random()*4)]}`;
-    const s=Math.random()*10+6;
-    p.style.width=p.style.height=s+"px";
-    p.style.top=Math.random()*100+"%";
-    p.style.left=Math.random()*100+"%";
-    document.body.appendChild(p);
-  }
-</script>
+<div id="loading">Carregando...</div>
 
-<div id="loading">
-  <div style="text-align:center">
-    <div class="recycle">♻️</div>
-    <h2>IFPE + Inteligente</h2>
+<header>HelpMe IFPE</header>
+
+<div class="pesquisa">
+  <input id="pesquisa" placeholder="Pesquisar local..." oninput="carregarLocais()">
+</div>
+
+<section>
+  <h3>Salas</h3>
+  <div id="salas"></div>
+</section>
+
+<section>
+  <h3>Laboratórios</h3>
+  <div id="labs"></div>
+</section>
+
+<section>
+  <h3>Áreas</h3>
+  <div id="areas"></div>
+</section>
+
+<section>
+  <h3>Ocupadas</h3>
+  <div id="ocupadas"></div>
+  <p id="avisoLivres">Nenhum local ocupado</p>
+</section>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h3 id="modalTitulo"></h3>
+    <input id="modalTurma" placeholder="Turma">
+    <input id="modalHorario" placeholder="Até que horas?">
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
+      <button class="btn-ok" onclick="confirmarModal()">Confirmar</button>
+    </div>
   </div>
 </div>
 
-<div class="container">
-  <div class="header">
-    <img style="width: 10%;" src="{{ url_for('static',filename='flow.png') }}">
-    <h2>PLATAFORMA</h2>
-    <h1>IFPE + INTELIGENTE</h1>
-  </div>
-
-  <div class="card">
-    <h2>IFPE Flow</h2>
-
-    <button class="add-sala" onclick="adicionarLocal()">➕ Adicionar Local</button>
-    <input id="pesquisa" placeholder="🔍 Procurar local..." onkeyup="carregarLocais()">
-
-    <h3 class="secao">🚫 Ocupadas</h3>
-    <div id="ocupadas" class="lista"></div>
-    <div id="avisoLivres">✅ Todas livres</div>
-
-    <h3 class="secao">🏫 Salas</h3>
-    <div id="salas" class="lista"></div>
-
-    <h3 class="secao">🧪 Laboratórios</h3>
-    <div id="labs" class="lista"></div>
-
-    <h3 class="secao">🌳 Áreas Diversas</h3>
-    <div id="areas" class="lista"></div>
-  </div>
-</div>
-
-<!-- NAVBAR CONTINUADA (EXATAMENTE COMO VOCÊ PEDIU) -->
+<!-- NAVBAR -->
 <div class="navbar">
   <a href="/perfil" class="nav-item">
     <img class="foto-perfil"
@@ -286,6 +232,97 @@
     <span>Config</span>
   </a>
 </div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<script>
+const loading = document.getElementById("loading");
+const salas = document.getElementById("salas");
+const labs = document.getElementById("labs");
+const areas = document.getElementById("areas");
+const ocupadas = document.getElementById("ocupadas");
+const avisoLivres = document.getElementById("avisoLivres");
+const pesquisa = document.getElementById("pesquisa");
+const modal = document.getElementById("modal");
+const modalTitulo = document.getElementById("modalTitulo");
+const modalTurma = document.getElementById("modalTurma");
+const modalHorario = document.getElementById("modalHorario");
+
+window.addEventListener("load",()=>{
+  loading.style.opacity=0;
+  setTimeout(()=>loading.style.display="none",400);
+});
+
+firebase.initializeApp({
+  apiKey:"AIzaSyA23RqXJ2Z92E-B19hajBi5uumh6XbGvpw",
+  authDomain:"integra-tech.firebaseapp.com",
+  projectId:"integra-tech"
+});
+
+const db = firebase.firestore();
+let localAtual=null, refAtual=null;
+
+async function carregarLocais(){
+  salas.innerHTML=labs.innerHTML=areas.innerHTML=ocupadas.innerHTML="";
+  let existeOcupada=false;
+  const termo=pesquisa.value.toLowerCase();
+
+  const snap=await db.collection("locais").get();
+  snap.forEach(d=>{
+    const s=d.data();
+    if(!s.nome.toLowerCase().includes(termo))return;
+
+    const div=document.createElement("div");
+    div.className=`item ${s.status}`;
+    div.innerHTML=`
+      ${s.nome}
+      <span>${s.status.toUpperCase()}</span>
+      ${s.status==="ocupada"?`
+        <div class="info">
+          🏫 ${s.turma}<br>
+          ⏰ ${s.horario}
+        </div>`:""}
+    `;
+    div.onclick=()=>abrirModal(d.ref,s);
+
+    if(s.status==="ocupada"){
+      existeOcupada=true;
+      ocupadas.appendChild(div);
+    }else{
+      if(s.tipo==="lab")labs.appendChild(div);
+      else if(s.tipo==="area")areas.appendChild(div);
+      else salas.appendChild(div);
+    }
+  });
+
+  avisoLivres.style.display=existeOcupada?"none":"block";
+}
+
+function abrirModal(ref,local){
+  refAtual=ref; localAtual=local;
+  modalTitulo.innerText=local.status==="livre"?"Ocupar local":"Finalizar atividade";
+  modalTurma.style.display=modalHorario.style.display=local.status==="livre"?"block":"none";
+  modal.style.display="flex";
+}
+
+function fecharModal(){modal.style.display="none"}
+
+async function confirmarModal(){
+  if(localAtual.status==="livre"){
+    await refAtual.update({
+      status:"ocupada",
+      turma:modalTurma.value,
+      horario:modalHorario.value
+    });
+  }else{
+    await refAtual.update({status:"livre",turma:"",horario:""});
+  }
+  fecharModal(); carregarLocais();
+}
+
+carregarLocais();
+</script>
 
 </body>
 </html>
