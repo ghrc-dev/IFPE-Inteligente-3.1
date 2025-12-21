@@ -244,12 +244,12 @@ window.addEventListener("load", () => {
   </a>
 
   <a href="/home" class="nav-item">
-    <img src="{{ url_for('static','homeimg.webp') }}" class="icon-img">
+    <img src="{{ url_for('static', filename='homeimg.png') }}" class="icon-img">
     <span>Home</span>
   </a>
 
   <a href="/config" class="nav-item">
-    <img src="{{ url_for('static','configimg.jpg') }}" class="icon-img">
+    <img src="{{ url_for('static', filename='configimg.png') }}" class="icon-img">
     <span>Config</span>
   </a>
 </div>
@@ -334,3 +334,4 @@ for(let i=0;i<30;i++){
 
 </body>
 </html>
+
