@@ -9,30 +9,12 @@
 <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
 <style>
- .nav-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
 }
-
-.nav-item:hover {
-  color: #007bff;
-}
-
-.foto-perfil {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.icon {
-  font-size: 18px;
-}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
 
 body{
   min-height:100vh;
@@ -41,20 +23,71 @@ body{
   overflow-x:hidden;
 }
 
-/* LOADING */
-#loading{
-  position:fixed;inset:0;
-  background:linear-gradient(180deg,#7A2BFF,#19CFFF);
-  display:flex;align-items:center;justify-content:center;
+/* ===== NAVBAR ===== */
+.navbar{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:#0A1B7E;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  padding:10px 0;
   z-index:9999;
 }
-.recycle{font-size:70px;animation:spin 1.5s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
 
-/* PARTÍCULAS */
+.nav-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  text-decoration:none;
+  color:#fff;
+  font-size:12px;
+}
+
+.nav-item:hover{ opacity:.85; }
+
+.icon-img{
+  width:26px;
+  height:26px;
+  object-fit:contain;
+}
+
+.foto-perfil{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid #fff;
+}
+
+/* ===== LOADING ===== */
+#loading{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(180deg,#7A2BFF,#19CFFF);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:99999;
+}
+
+.recycle{
+  font-size:70px;
+  animation:spin 1.5s linear infinite;
+}
+
+@keyframes spin{ to{transform:rotate(360deg)} }
+
+/* ===== PARTICLES ===== */
 .particle{
-  position:absolute;border-radius:50%;opacity:.9;
-  animation:float 6s ease-in-out infinite;z-index:-1
+  position:absolute;
+  border-radius:50%;
+  opacity:.9;
+  animation:float 6s ease-in-out infinite;
+  z-index:-1;
 }
 .blue{background:#00C2FF}
 .green{background:#11FF89}
@@ -62,8 +95,13 @@ body{
 .pink{background:#FF5C8D}
 @keyframes float{50%{transform:translateY(-14px)}}
 
-/* LAYOUT */
-.container{max-width:420px;margin:auto;padding:20px 16px 80px}
+/* ===== LAYOUT ===== */
+.container{
+  max-width:420px;
+  margin:auto;
+  padding:20px 16px 100px;
+}
+
 .header{text-align:center;margin-bottom:24px}
 .header img{width:85px}
 .header h1{font-size:20px;font-weight:700}
@@ -75,25 +113,17 @@ body{
   padding:18px;
   box-shadow:0 10px 25px rgba(0,0,0,.25);
 }
-  /* ROBÔ */
-.robo-box{
-  display:flex;
-  justify-content:center;
-  margin:18px 0;
-}
 
+/* ===== ROBÔ ===== */
+.robo-box{display:flex;justify-content:center;margin:18px 0}
 .robo{
   width:130px;
   padding:14px;
   border-radius:50%;
   background:rgba(255,255,255,0.15);
-  box-shadow:
-    0 12px 25px rgba(0,0,0,0.35),
-    inset 0 0 18px rgba(255,255,255,0.25);
-  animation: roboFloat 3s ease-in-out infinite;
+  box-shadow:0 12px 25px rgba(0,0,0,.35), inset 0 0 18px rgba(255,255,255,.25);
+  animation:roboFloat 3s ease-in-out infinite;
 }
-
-/* animação flutuando */
 @keyframes roboFloat{
   0%{transform:translateY(0)}
   50%{transform:translateY(-10px)}
@@ -106,14 +136,19 @@ body{
 
 .buttons{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
 .btn{
-  border:none;border-radius:18px;padding:8px 14px;
-  font-size:13px;font-weight:600;cursor:pointer;text-decoration:none
+  border:none;
+  border-radius:18px;
+  padding:8px 14px;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  text-decoration:none;
 }
 .btn.blue{background:#0A3D91;color:#fff}
 .btn.yellow{background:#FFD447;color:#333}
 .btn.green{background:#20E3A2;color:#003B2A}
 
-/* BOXES */
+/* ===== HORÁRIOS ===== */
 .schedule{
   background:#F2F2F2;
   border-radius:18px;
@@ -128,39 +163,16 @@ body{
   margin-bottom:6px;
 }
 
-/* FILTROS */
+/* ===== FILTROS ===== */
 .filters{display:flex;gap:8px;margin-bottom:12px}
 .filters select,.filters button{
-  flex:1;padding:8px;border-radius:10px;border:none;font-size:13px
+  flex:1;
+  padding:8px;
+  border-radius:10px;
+  border:none;
+  font-size:13px;
 }
 .filters button{background:#11FF89;font-weight:700}
-
-/* NAVBAR */
-.navbar{
-  position:fixed;bottom:0;left:0;width:100%;
-  background:#0A1B7E;display:flex;justify-content:space-around;
-  padding:10px 0;
-  z-index:9999999
- 
-}
-.navbar a{color:#fff;text-decoration:none;font-size:18px}
-  .nav-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-}
-
-.nav-item:hover {
-  color: #007bff;
-}
-
-
-.icon {
-  font-size: 18px;
-}
 </style>
 </head>
 
@@ -208,8 +220,9 @@ for(let i=0;i<25;i++){
     </div>
 
     <p>Olá <strong>{{ usuario.nome }}</strong>, sou o <strong>ORBI</strong>, seu assistente virtual.</p>
+
     <div class="robo-box">
-      <img style="width: 50%;" src="{{ url_for('static', filename='robozin.png') }}" class="robo">
+      <img src="{{ url_for('static', filename='robozin.png') }}" class="robo">
     </div>
 
     <div class="buttons">
@@ -218,7 +231,6 @@ for(let i=0;i<25;i++){
       <button class="btn green" id="btnApoio" onclick="toggleApoio()">Apoio acadêmico</button>
     </div>
 
-    <!-- HORÁRIOS -->
     <div class="schedule" id="horariosBox">
       <h4>Meus horários</h4>
 
@@ -248,10 +260,8 @@ for(let i=0;i<25;i++){
       <div id="scheduleList"></div>
     </div>
 
-    <!-- APOIO -->
     <div class="schedule" id="apoioBox" style="display:none;">
       <h4>Apoio Acadêmico</h4>
-
       <p style="font-size:13px;text-align:center">Entre em contato 👇</p>
 
       <table style="width:100%;background:#fff;border-radius:12px;padding:8px;font-size:13px">
@@ -264,241 +274,42 @@ for(let i=0;i<25;i++){
   </div>
 </div>
 
+<!-- ===== NAVBAR ===== -->
 <div class="navbar">
-  <!-- Lado esquerdo -->
-  <div class="nav-left">
-    <a href="/perfil" class="nav-item">
-      <img 
-        id="fotoPerfil"
-        class="foto-perfil"
-        src="{{ usuario.foto if usuario.foto else url_for('static', filename='fotoexemplo.jpg') }}"
-        alt="Perfil">
-      <span>Perfil</span>
-    </a>
-  </div>
 
-  <!-- Lado direito -->
-  <div class="navbar">
-    <a href="/home" class="nav-item">
-      <span class="icon">🏠</span>
-      <span>Home</span>
-    </a>
+  <a href="/perfil" class="nav-item">
+    <img class="foto-perfil"
+      src="{{ usuario.foto if usuario.foto else url_for('static', filename='fotoexemplo.jpg') }}"
+      alt="Perfil">
+    <span>Perfil</span>
+  </a>
 
-    <a href="/config" class="nav-item">
-      <span class="icon">⚙️</span>
-      <span>Configuração</span>
-    </a>
-  </div>
+  <a href="/home" class="nav-item">
+    <img src="{{ url_for('static', filename='homeimg.webp') }}" class="icon-img" alt="Home">
+    <span>Home</span>
+  </a>
+
+  <a href="/config" class="nav-item">
+    <img src="{{ url_for('static', filename='configimg.jpg') }}" class="icon-img" alt="Config">
+    <span>Config</span>
+  </a>
+
 </div>
 
-
 <script>
-const horarios=[
-"07:15 - 08:00","08:00 - 08:45","08:45 - 09:30",
-"09:45 - 10:30","10:30 - 11:15","11:15 - 12:00","12:00 - 12:45"
-];
-
-const grade = {
-  1: {
-    A: {
-      segunda: [
-        "Ciência, Tecnologia e Sociedade",
-        "Biologia 1",
-        "Biologia 1",
-        "Equipe Multidisciplinar 1",
-        "Informática e Redes",
-        "Informática e Redes",
-        "Artes 1"
-      ],
-      terca: [
-        "Educação Física 1",
-        "Inglês 1",
-        "Inglês 1",
-        "Programação 1",
-        "Programação 1",
-        "Programação 1",
-        "Programação 1"
-      ],
-      quarta: [
-        "Matemática 1",
-        "Matemática 1",
-        "Matemática 1",
-        "Ferram. Escritório e Acesso Remoto",
-        "Ferram. Escritório e Acesso Remoto",
-        "Física 1",
-        "Física 1"
-      ],
-      quinta: [
-        "Geografia 1",
-        "Geografia 1",
-        "História 1",
-        "História 1",
-        "Português 1",
-        "Português 1",
-        "Português 1"
-      ],
-      sexta: [
-        "Química 1",
-        "Química 1",
-        "Filosofia 1",
-        "Filosofia 1",
-        "Projeto e Prática",
-        "Projeto e Prática",
-        "Projeto e Prática"
-      ]
-    },
-
-    B: {
-      segunda: [
-        "História 1","História 1","Artes 1","Equipe Multidisciplinar 1",
-        "Ciência, Tecnologia e Sociedade","Biologia 1","Biologia 1"
-      ],
-      terca: [
-        "Física 1","Física 1","Educação Física 1","Geografia",
-        "Geografia","Inglês 1","Inglês 1"
-      ],
-      quarta: [
-        "Ferram. Escritório e Acesso Remoto","Ferram. Escritório e Acesso Remoto",
-        "Programação 1","Programação 1","Matemática 1","Matemática 1","Matemática 1"
-      ],
-      quinta: [
-        "Português 1","Português 1","Português 1","Programação 1",
-        "Programação 1","Informática Redes","Informática Redes"
-      ],
-      sexta: [
-        "Projeto e Prática 1","Projeto e Prática 1","Projeto e Prática 1",
-        "Química 1","Química 1","Filosofia 1","Filosofia 1"
-      ]
-    }
-  },
-
-  2: {
-    A: {
-      segunda: [
-        "Física 2","Física 2","História 2","História 2","Matemática 2","Matemática 2","Matemática 2"
-      ],
-      terca: [
-        "Sociologia","Sociologia","Aula Vaga","Segurança, Meio Ambiente e Saúde","Segurança, Meio Ambiente e Saúde","Geografia 2","Geografia 2"
-      ],
-      quarta: [
-        "Programação 2","Programação 2","Desenv. Web","Desenv. Web","Desenv. Web","Desenv. Web","Aula Vaga"
-      ],
-      quinta: [
-        "Biologia 2","Biologia 2","Inglês 2","Inglês 2","Projeto e Prática 2","Projeto e Prática 2","Projeto e Prática 2"
-      ],
-      sexta: [
-        "Português 2","Português 2","Português 2","Banco de Dados",
-        "Banco de Dados","Química 2", "Química 2"
-      ]
-    },
-
-    B: {
-      segunda: [
-        "Matemática 2","Matemática 2","Matemática 2",
-        "Programação 2","Programação 2","História 2","História 2"
-      ],
-      terca: [
-        "Química 2","Química 2","Aula Vaga","Sociologia","Sociologia",
-        "Segurança Meio Ambiente","Segurança Meio Ambiente"
-      ],
-      quarta: [
-        "Projeto e Prática 2","Projeto e Prática 2","Projeto e Prática 2",
-        "Física 2","Física 2","Aula Vaga","Desenv. Web"
-      ],
-      quinta: [
-        "Inglês 2","Inglês 2","Geografia 2",
-        "Geografia 2","Desenv. Web","Desenv. Web","Desenv. Web"
-      ],
-      sexta: [
-        "Banco de Dados","Banco de Dados","Biologia 2",
-        "Biologia 2","Português 2","Português 2","Português 2"
-      ]
-    }
-  },
-
-  3: {
-    A: {
-      segunda: [
-        "Artes 2","Artes 2","Física 3","Física 3",
-        "Empreend., Inov. e Startups","Empreend., Inov. e Startups","Empreend., Inov. e Startups"
-      ],
-      terca: [
-        "Geografia 3","Geografia 3","Inglês Instrumental",
-        "Inglês Instrumental","Testes de Software","Testes de Software","Testes de Software"
-      ],
-      quarta: [
-        "Português 3","Português 3","Português 3","Química 3","Química 3","Programação 3","Programação 3"
-      ],
-      quinta: [
-        "Programação 3","Programação 3","Biologia 3","Biologia 3","Matemática 3","Matemática 3","Matemática 3"
-      ],
-      sexta: [
-        "Projeto e Prática 3","Projeto e Prática 3","Projeto e Prática 3",
-        "Ed. Física 2","Ed. Física 2","História 3","História 3"
-      ]
-    },
-
-    B: {
-      segunda: [
-        "Empreend. Inov. e Startups","Empreend. Inov. e Startups",
-        "Empreend. Inov. e Startups","Artes 2","Artes 2","Física 3","Física 3"
-      ],
-      terca: [
-        "Português 3","Português 3","Português 3",
-        "Ed. Física 2","Ed. Física 2","Inglês Instrumental","Inglês Instrumental"
-      ],
-      quarta: [
-        "Química 3","Química 3","Programação 3",
-        "Programação 3","Testes de Software","Testes de Software","Testes de Software"
-      ],
-      quinta: [
-        "Matemática 3","Matemática 3","Matemática 3",
-        "Programação 3","Programação 3","Geografia 3","Geografia 3"
-      ],
-      sexta: [
-        "Biologia 3","Biologia 3","História 3",
-        "História 3","Projeto e Prática 3","Projeto e Prática 3","Projeto e Prática 3"
-      ]
-    }
-  }
-};
-
 function mostrarHorarios(){
-  const s=serie.value,t=turma.value,d=dia.value;
-  const aulas=grade[s]?.[t]?.[d];
+  const horarios=["07:15 - 08:00","08:00 - 08:45","08:45 - 09:30","09:45 - 10:30","10:30 - 11:15","11:15 - 12:00","12:00 - 12:45"];
+  const aulas=grade[serie.value]?.[turma.value]?.[dia.value];
   scheduleList.innerHTML=aulas
     ? aulas.map((a,i)=>`<div class="schedule-item"><span>${a}</span><span>${horarios[i]}</span></div>`).join("")
     : "<p>Sem aulas.</p>";
 }
 
 function toggleApoio(){
-  const horariosBox=document.getElementById("horariosBox");
-  const apoioBox=document.getElementById("apoioBox");
-  const btn=document.getElementById("btnApoio");
-
-  if(apoioBox.style.display==="none"){
-    horariosBox.style.display="none";
-    apoioBox.style.display="block";
-    btn.innerText="Horário";
-    btn.classList.remove("green");
-    btn.classList.add("blue");
-  }else{
-    apoioBox.style.display="none";
-    horariosBox.style.display="block";
-    btn.innerText="Apoio acadêmico";
-    btn.classList.remove("blue");
-    btn.classList.add("green");
-  }
+  apoioBox.style.display=apoioBox.style.display==="none"?"block":"none";
+  horariosBox.style.display=apoioBox.style.display==="none"?"block":"none";
 }
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
