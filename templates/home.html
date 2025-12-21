@@ -12,6 +12,26 @@
 <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
 
 <style>
+  /* ===== PARTICLES ===== */
+.particle{
+  position:absolute;
+  border-radius:50%;
+  opacity:.9;
+  animation:float 6s ease-in-out infinite;
+  z-index:0;
+  pointer-events:none;
+}
+
+.blue{ background:#00C2FF; }
+.green{ background:#11FF89; }
+.yellow{ background:#FFD447; }
+.pink{ background:#FF5C8D; }
+
+@keyframes float{
+  0%{ transform:translateY(0); }
+  50%{ transform:translateY(-14px); }
+  100%{ transform:translateY(0); }
+}
 *{
   margin:0;
   padding:0;
@@ -205,4 +225,5 @@ body{
 
 </body>
 </html>
+
 
