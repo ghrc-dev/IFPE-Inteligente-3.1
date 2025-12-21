@@ -52,6 +52,30 @@ body{
   padding:18px;
   box-shadow:0 10px 25px rgba(0,0,0,.25);
 }
+  /* ROBÔ */
+.robo-box{
+  display:flex;
+  justify-content:center;
+  margin:18px 0;
+}
+
+.robo{
+  width:130px;
+  padding:14px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.15);
+  box-shadow:
+    0 12px 25px rgba(0,0,0,0.35),
+    inset 0 0 18px rgba(255,255,255,0.25);
+  animation: roboFloat 3s ease-in-out infinite;
+}
+
+/* animação flutuando */
+@keyframes roboFloat{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+  100%{transform:translateY(0)}
+}
 
 .card-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .card-top img{width:36px}
@@ -142,7 +166,9 @@ for(let i=0;i<25;i++){
     </div>
 
     <p>Olá <strong>{{ usuario.nome }}</strong>, sou o <strong>ORBI</strong>, seu assistente virtual.</p>
-    <img src="{{ url_for('static', filename='robozin.png') }}">
+    <div class="robo-box">
+      <img style="width: 50%;" src="{{ url_for('static', filename='robozin.png') }}" class="robo">
+    </div>
 
     <div class="buttons">
       <a class="btn blue" href="https://sites.google.com/jaboatao.ifpe.edu.br/ensino/secretaria">Rematrícula</a>
@@ -404,4 +430,5 @@ function toggleApoio(){
 
 </body>
 </html>
+
 
