@@ -1,197 +1,212 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eco Scan</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eco Scan</title>
 
-  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
-  <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
 
-  <style>
-   .nav-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins', sans-serif;
 }
 
-.nav-item:hover {
-  color: #007bff;
+body{
+  min-height:100svh;
+  background:linear-gradient(180deg,#7A2BFF 0%,#4B5BFF 50%,#2E3C9E 100%);
+  color:#fff;
 }
 
-.foto-perfil {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
+/* ===== NAVBAR ===== */
+.navbar{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:#0A1B7E;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  padding:10px 0;
+  z-index:10;
 }
 
-.icon {
-  font-size: 18px;
+.nav-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  text-decoration:none;
+  color:#fff;
+  font-size:12px;
 }
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
 
-    body {
-      min-height:100svh;
-      background:linear-gradient(180deg,#7A2BFF 0%,#4B5BFF 50%,#2E3C9E 100%);
-      display:flex;
-      justify-content:center;
-      align-items:flex-start;
-      color:white;
-    }
+.nav-item:hover{
+  opacity:.85;
+}
 
-    #loading{
-      position:fixed;
-      inset:0;
-      background:linear-gradient(180deg,#7A2BFF 0%,#19CFFF 100%);
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      z-index:9999;
-    }
+.icon-img{
+  width:26px;
+  height:26px;
+  object-fit:contain;
+}
 
-    .recycle{ font-size:70px; animation:spin 1.5s linear infinite; }
-    @keyframes spin{ to{ transform:rotate(360deg);} }
+.foto-perfil{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid #fff;
+}
 
-    .container{ width:100%; padding:20px 16px 160px; max-width:520px; }
-    h1{ font-size:1.6rem; }
-    h3{ font-size:.95rem; opacity:.9; }
+/* ===== LOADING ===== */
+#loading{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(180deg,#7A2BFF 0%,#19CFFF 100%);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
 
-    .card{
-      background:rgba(255,255,255,.14);
-      backdrop-filter:blur(12px);
-      border-radius:18px;
-      padding:18px;
-      margin-top:18px;
-    }
+.recycle{
+  font-size:70px;
+  animation:spin 1.5s linear infinite;
+}
 
-    a.button{
-      display:block;
-      width:100%;
-      padding:14px 0;
-      border-radius:32px;
-      background:#47E895;
-      color:#003A1A;
-      font-weight:600;
-      text-align:center;
-      cursor:pointer;
-    }
+@keyframes spin{
+  to{ transform:rotate(360deg); }
+}
 
-    .popup-overlay{
-      position:fixed;
-      inset:0;
-      background:#00000090;
-      display:none;
-      justify-content:center;
-      align-items:center;
-      z-index:999;
-    }
+/* ===== CONTENT ===== */
+.container{
+  width:100%;
+  max-width:520px;
+  padding:20px 16px 140px;
+  margin:0 auto;
+}
 
-    .popup-card{
-      width:92%;
-      max-width:360px;
-      background:#fff;
-      color:#222;
-      padding:22px;
-      border-radius:18px;
-    }
+h1{ font-size:1.6rem; }
+h3{ font-size:.95rem; opacity:.9; }
 
-    .popup-card select,
-    .popup-card input{
-      width:100%;
-      padding:10px;
-      margin:8px 0;
-      border-radius:10px;
-      border:1px solid #bbb;
-    }
+.card{
+  background:rgba(255,255,255,.14);
+  backdrop-filter:blur(12px);
+  border-radius:18px;
+  padding:18px;
+  margin-top:18px;
+}
 
-    .btn-confirmar,.btn-cancelar{
-      width:100%;
-      padding:12px;
-      border-radius:12px;
-      border:none;
-      margin-top:10px;
-      font-weight:600;
-      cursor:pointer;
-    }
+a.button{
+  display:block;
+  width:100%;
+  padding:14px 0;
+  border-radius:32px;
+  background:#47E895;
+  color:#003A1A;
+  font-weight:600;
+  text-align:center;
+  cursor:pointer;
+}
 
-    .btn-confirmar{ background:#47E895; }
-    .btn-cancelar{ background:#ff4040; color:#fff; }
+/* ===== POPUP ===== */
+.popup-overlay{
+  position:fixed;
+  inset:0;
+  background:#00000090;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
 
-    #searchRanking{
-      width:100%;
-      padding:10px;
-      border-radius:12px;
-      border:none;
-      margin:10px 0;
-    }
+.popup-card{
+  width:92%;
+  max-width:360px;
+  background:#fff;
+  color:#222;
+  padding:22px;
+  border-radius:18px;
+}
 
-    .ranking-box{ max-height:320px; overflow-y:auto; }
+.popup-card select,
+.popup-card input{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border-radius:10px;
+  border:1px solid #bbb;
+}
 
-    .navbar{
-      position:fixed;
-      bottom:0;
-      left:0;
-      width:100%;
-      background:#0A1B7E;
-      display:flex;
-      justify-content:space-around;
-      padding:10px 0;
-      z-index:1;
-    }
+.btn-confirmar,.btn-cancelar{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:none;
+  margin-top:10px;
+  font-weight:600;
+  cursor:pointer;
+}
 
-    .navbar a{
-      color:#fff;
-      text-decoration:none;
-      font-size:13px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-    }
+.btn-confirmar{ background:#47E895; }
+.btn-cancelar{ background:#ff4040; color:#fff; }
 
-    .particle{
-      position:absolute;
-      border-radius:50%;
-      opacity:.9;
-      animation:float 6s ease-in-out infinite;
-      z-index:0;
-      pointer-events:none;
-    }
+#searchRanking{
+  width:100%;
+  padding:10px;
+  border-radius:12px;
+  border:none;
+  margin:10px 0;
+}
 
-    .blue{ background:#00C2FF; }
-    .green{ background:#11FF89; }
-    .yellow{ background:#FFD447; }
-    .pink{ background:#FF5C8D; }
+.ranking-box{ max-height:320px; overflow-y:auto; }
 
-    @keyframes float{
-      0%{ transform:translateY(0); }
-      50%{ transform:translateY(-14px); }
-      100%{ transform:translateY(0); }
-    }
-  </style>
+/* ===== PARTICLES ===== */
+.particle{
+  position:absolute;
+  border-radius:50%;
+  opacity:.9;
+  animation:float 6s ease-in-out infinite;
+  z-index:0;
+  pointer-events:none;
+}
+
+.blue{ background:#00C2FF; }
+.green{ background:#11FF89; }
+.yellow{ background:#FFD447; }
+.pink{ background:#FF5C8D; }
+
+@keyframes float{
+  0%{ transform:translateY(0); }
+  50%{ transform:translateY(-14px); }
+  100%{ transform:translateY(0); }
+}
+</style>
 </head>
 
 <body>
 
 <script>
-  const colors=["blue","green","yellow","pink"];
-  for(let i=0;i<28;i++){
-    const b=document.createElement("span");
-    b.className=`particle ${colors[Math.floor(Math.random()*colors.length)]}`;
-    const size=Math.floor(Math.random()*10)+6;
-    b.style.width=size+"px";
-    b.style.height=size+"px";
-    b.style.top=Math.random()*100+"%";
-    b.style.left=Math.random()*100+"%";
-    b.style.animationDelay=Math.random()*5+"s";
-    document.body.appendChild(b);
-  }
+const colors=["blue","green","yellow","pink"];
+for(let i=0;i<28;i++){
+  const b=document.createElement("span");
+  b.className=`particle ${colors[Math.floor(Math.random()*colors.length)]}`;
+  const size=Math.floor(Math.random()*10)+6;
+  b.style.width=size+"px";
+  b.style.height=size+"px";
+  b.style.top=Math.random()*100+"%";
+  b.style.left=Math.random()*100+"%";
+  b.style.animationDelay=Math.random()*5+"s";
+  document.body.appendChild(b);
+}
 </script>
 
 <div id="loading">
@@ -213,17 +228,7 @@
       <option value="organico">Orgânico</option>
     </select>
 
-    <input
-      type="number"
-      id="quantidade"
-      value="1"
-      inputmode="numeric"
-      oninput="
-        this.value=this.value.replace(/[^0-9]/g,'');
-        if(this.value===''||this.value==='0') this.value='1';
-        if(parseInt(this.value)>10) this.value='10';
-      "
-    >
+    <input type="number" id="quantidade" value="1">
 
     <button class="btn-confirmar" onclick="registrarLixo()">Confirmar</button>
     <button class="btn-cancelar" onclick="fecharPopup()">Cancelar</button>
@@ -245,110 +250,88 @@
   </div>
 </div>
 
+<!-- ===== NAVBAR ===== -->
 <div class="navbar">
-  <!-- Lado esquerdo -->
-  <div class="nav-left">
-    <a href="/perfil" class="nav-item">
-      <img 
-        id="fotoPerfil"
-        class="foto-perfil"
-        src="{{ usuario.foto if usuario.foto else url_for('static', filename='fotoexemplo.jpg') }}"
-        alt="Perfil">
-      <span>Perfil</span>
-    </a>
-  </div>
 
-  <!-- Lado direito -->
-  <div class="navbar">
-    <a href="/home" class="nav-item">
-      <span class="icon">🏠</span>
-      <span>Home</span>
-    </a>
+  <a href="/perfil" class="nav-item">
+    <img
+      class="foto-perfil"
+      src="{{ usuario.foto if usuario.foto else url_for('static', filename='fotoexemplo.jpg') }}"
+      alt="Perfil">
+    <span>Perfil</span>
+  </a>
 
-    <a href="/config" class="nav-item">
-      <span class="icon">⚙️</span>
-      <span>Configuração</span>
-    </a>
-  </div>
+  <a href="/home" class="nav-item">
+    <img src="{{ url_for('static', filename='homeimg.webp') }}" class="icon-img" alt="Home">
+    <span>Home</span>
+  </a>
+
+  <a href="/config" class="nav-item">
+    <img src="{{ url_for('static', filename='configimg.jpg') }}" class="icon-img" alt="Config">
+    <span>Config</span>
+  </a>
+
 </div>
 
-
 <script>
-  window.addEventListener("load",()=>{
-    loading.style.opacity="0";
-    setTimeout(()=>loading.style.display="none",400);
-  });
+window.addEventListener("load",()=>{
+  loading.style.opacity="0";
+  setTimeout(()=>loading.style.display="none",400);
+});
 
-  function abrirPopup(){ popup.style.display="flex"; }
-  function fecharPopup(){ popup.style.display="none"; }
+function abrirPopup(){ popup.style.display="flex"; }
+function fecharPopup(){ popup.style.display="none"; }
 
-  function registrarLixo(){
-    let qtd=parseInt(quantidade.value,10);
-    if(isNaN(qtd)||qtd<1) qtd=1;
-    if(qtd>10) qtd=10;
-    quantidade.value=qtd;
+let rankingGlobal=[];
 
-    fetch("/registrar_lixo",{
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body:JSON.stringify({
-        tipo:tipo.value,
-        quantidade:qtd
-      })
+function registrarLixo(){
+  fetch("/registrar_lixo",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({
+      tipo:tipo.value,
+      quantidade:parseInt(quantidade.value)||1
     })
-    .then(r=>r.json())
-    .then(()=>{
-      fecharPopup();
-      carregarRanking();
+  })
+  .then(()=>{ fecharPopup(); carregarRanking(); });
+}
+
+function carregarRanking(){
+  fetch("/ranking")
+    .then(res=>res.json())
+    .then(data=>{
+      rankingGlobal=(data.ranking||[]).map((u,i)=>({...u,posicao:i+1}));
+      renderizarRanking(rankingGlobal);
     });
-  }
+}
 
-  let rankingGlobal=[];
+function renderizarRanking(lista){
+  ranking.innerHTML="";
+  const maior=rankingGlobal[0]?.pontos||1;
 
-  function carregarRanking(){
-    fetch("/ranking")
-      .then(res=>res.json())
-      .then(data=>{
-        rankingGlobal=(data.ranking||[]).map((u,i)=>({...u,posicao:i+1}));
-        renderizarRanking(rankingGlobal);
-      });
-  }
-
-  function renderizarRanking(lista){
-    ranking.innerHTML="";
-    const maior=rankingGlobal[0]?.pontos||1;
-
-    lista.forEach(user=>{
-      const percentual=(user.pontos/maior)*100;
-      ranking.innerHTML+=`
-        <div style="background:${user.is_me?"#20bf00d4":"#ffffff15"};padding:14px;border-radius:14px;margin-bottom:12px;">
-          <div style="display:flex;justify-content:space-between;">
-            <strong>
-              ${user.posicao===1?"🥇":user.posicao===2?"🥈":user.posicao===3?"🥉":""}
-              ${user.posicao}º ${user.nome} ${user.is_me?"(Você)":""}
-            </strong>
-            <span>${user.pontos} pts</span>
-          </div>
-          <div style="height:10px;background:#0003;border-radius:6px;margin-top:6px;">
-            <div style="height:100%;width:${percentual}%;background:#FFD447;"></div>
-          </div>
+  lista.forEach(user=>{
+    const percentual=(user.pontos/maior)*100;
+    ranking.innerHTML+=`
+      <div style="background:${user.is_me?"#20bf00d4":"#ffffff15"};padding:14px;border-radius:14px;margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;">
+          <strong>${user.posicao}º ${user.nome} ${user.is_me?"(Você)":""}</strong>
+          <span>${user.pontos} pts</span>
         </div>
-      `;
-    });
-  }
+        <div style="height:10px;background:#0003;border-radius:6px;margin-top:6px;">
+          <div style="height:100%;width:${percentual}%;background:#FFD447;"></div>
+        </div>
+      </div>
+    `;
+  });
+}
 
-  function filtrarRanking(){
-    const termo=searchRanking.value.toLowerCase();
-    renderizarRanking(rankingGlobal.filter(u=>u.nome.toLowerCase().includes(termo)));
-  }
+function filtrarRanking(){
+  const termo=searchRanking.value.toLowerCase();
+  renderizarRanking(rankingGlobal.filter(u=>u.nome.toLowerCase().includes(termo)));
+}
 
-  carregarRanking();
+carregarRanking();
 </script>
 
 </body>
 </html>
-
-
-
-
-
