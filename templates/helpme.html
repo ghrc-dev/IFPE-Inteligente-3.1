@@ -47,53 +47,14 @@ body{
   font-size:12px;
 }
 
-.nav-item:hover{ opacity:.85; }
-
-.icon-img{
-  width:26px;
-  height:26px;
-  object-fit:contain;
-}
-
+.icon-img{width:26px;height:26px}
 .foto-perfil{
   width:32px;
   height:32px;
   border-radius:50%;
-  object-fit:cover;
   border:2px solid #fff;
+  object-fit:cover;
 }
-
-/* ===== LOADING ===== */
-#loading{
-  position:fixed;
-  inset:0;
-  background:linear-gradient(180deg,#7A2BFF,#19CFFF);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:99999;
-}
-
-.recycle{
-  font-size:70px;
-  animation:spin 1.5s linear infinite;
-}
-
-@keyframes spin{ to{transform:rotate(360deg)} }
-
-/* ===== PARTICLES ===== */
-.particle{
-  position:absolute;
-  border-radius:50%;
-  opacity:.9;
-  animation:float 6s ease-in-out infinite;
-  z-index:-1;
-}
-.blue{background:#00C2FF}
-.green{background:#11FF89}
-.yellow{background:#FFD447}
-.pink{background:#FF5C8D}
-@keyframes float{50%{transform:translateY(-14px)}}
 
 /* ===== LAYOUT ===== */
 .container{
@@ -104,8 +65,6 @@ body{
 
 .header{text-align:center;margin-bottom:24px}
 .header img{width:85px}
-.header h1{font-size:20px;font-weight:700}
-.header h2{font-size:18px;font-weight:600}
 
 .card{
   background:#1FB7C9;
@@ -120,20 +79,14 @@ body{
   width:130px;
   padding:14px;
   border-radius:50%;
-  background:rgba(255,255,255,0.15);
-  box-shadow:0 12px 25px rgba(0,0,0,.35), inset 0 0 18px rgba(255,255,255,.25);
+  background:rgba(255,255,255,.15);
   animation:roboFloat 3s ease-in-out infinite;
 }
 @keyframes roboFloat{
-  0%{transform:translateY(0)}
   50%{transform:translateY(-10px)}
-  100%{transform:translateY(0)}
 }
 
-.card-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.card-top img{width:36px}
-.card-top h3{font-size:20px;font-weight:700}
-
+/* ===== BOTÕES ===== */
 .buttons{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
 .btn{
   border:none;
@@ -148,71 +101,59 @@ body{
 .btn.yellow{background:#FFD447;color:#333}
 .btn.green{background:#20E3A2;color:#003B2A}
 
-/* ===== HORÁRIOS ===== */
+/* ===== BLOCOS ===== */
 .schedule{
   background:#F2F2F2;
   border-radius:18px;
-  padding:12px;
+  padding:16px;
+  color:#0A1B7E;
+  margin-top:14px;
+}
+
+.schedule h4{text-align:center;margin-bottom:10px}
+
+/* ===== TABELA APOIO ===== */
+.apoio-table{
+  width:100%;
+  background:#fff;
+  border-radius:18px;
+  padding:10px;
+  border-collapse:separate;
+  border-spacing:0 14px;
+  font-size:13px;
+}
+
+.apoio-table tr{
+  background:#F7F9FF;
+  border-radius:14px;
+}
+
+.apoio-table td{
+  padding:12px 14px;
+  vertical-align:top;
+}
+
+.apoio-table td:first-child{
+  font-weight:600;
+  width:55%;
   color:#0A1B7E;
 }
-.schedule h4{text-align:center;font-size:14px;margin-bottom:8px}
-.schedule-item{
-  font-size:13px;
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:6px;
+
+.apoio-table td a{
+  color:#3A4BB8;
+  font-weight:600;
+  word-break:break-word;
 }
 
-/* ===== FILTROS ===== */
-.filters{display:flex;gap:8px;margin-bottom:12px}
-.filters select,.filters button{
-  flex:1;
-  padding:8px;
-  border-radius:10px;
-  border:none;
-  font-size:13px;
-}
-.filters button{background:#11FF89;font-weight:700}
-  table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 12px; /* espaço entre as linhas */
-}
-
-td {
-  padding: 10px 14px; /* espaço interno */
-  vertical-align: top;
+.apoio-table small{
+  display:block;
+  margin-top:6px;
+  color:#555;
 }
 </style>
 </head>
 
 <body>
-
-<!-- LOADING -->
-<div id="loading">
-  <div style="text-align:center">
-    <div class="recycle">♻️</div>
-    <h2>IFPE + Inteligente</h2>
-    <p>Carregando práticas sustentáveis...</p>
-  </div>
-</div>
-
-<script>
-window.onload=()=>setTimeout(()=>loading.style.display="none",400);
-</script>
-
-<script>
-const colors=["blue","green","yellow","pink"];
-for(let i=0;i<25;i++){
-  const p=document.createElement("span");
-  p.className=`particle ${colors[Math.random()*4|0]}`;
-  const s=Math.random()*10+6;
-  p.style.width=p.style.height=s+"px";
-  p.style.top=Math.random()*100+"%";
-  p.style.left=Math.random()*100+"%";
-  document.body.appendChild(p);
-}
-</script>
 
 <div class="container">
 
@@ -224,11 +165,6 @@ for(let i=0;i<25;i++){
 
   <div class="card">
 
-    <div class="card-top">
-      <img src="{{ url_for('static', filename='help_semfundo.png') }}">
-      <h3>HelpMe IFPE</h3>
-    </div>
-
     <p>Olá <strong>{{ usuario.nome }}</strong>, sou o <strong>ORBI</strong>, seu assistente virtual.</p>
 
     <div class="robo-box">
@@ -236,164 +172,56 @@ for(let i=0;i<25;i++){
     </div>
 
     <div class="buttons">
-      <a class="btn blue" href="https://sites.google.com/jaboatao.ifpe.edu.br/ensino/secretaria">Rematrícula</a>
-      <a class="btn yellow" href="#">Agenda</a>
-      <button class="btn green" id="btnApoio" onclick="toggleApoio()">Apoio acadêmico</button>
-    </div>
-
-    <div class="schedule" id="horariosBox">
-      <h4>Meus horários</h4>
-
-      <div class="filters">
-        <select id="serie">
-          <option value="1">1º Ano</option>
-          <option value="2">2º Ano</option>
-          <option value="3">3º Ano</option>
-        </select>
-
-        <select id="turma">
-          <option value="A">Turma A</option>
-          <option value="B">Turma B</option>
-        </select>
-
-        <select id="dia">
-          <option value="segunda">Segunda</option>
-          <option value="terca">Terça</option>
-          <option value="quarta">Quarta</option>
-          <option value="quinta">Quinta</option>
-          <option value="sexta">Sexta</option>
-        </select>
-
-        <button onclick="mostrarHorarios()">Ver</button>
-      </div>
-
-      <div id="scheduleList"></div>
+      <a class="btn blue" href="#">Rematrícula</a>
+      <button class="btn green" onclick="toggleApoio()">Apoio acadêmico</button>
     </div>
 
     <div class="schedule" id="apoioBox" style="display:none;">
       <h4>Apoio Acadêmico</h4>
-      <p style="font-size:13px;text-align:center">Entre em contato 👇</p>
+      <p style="text-align:center;font-size:13px">Entre em contato 👇</p>
 
-      <table style="width:100%;background:#fff;border-radius:12px;padding:8px;font-size:13px">
+      <table class="apoio-table">
+        <tr><td>Gabinete da Direção-Geral</td><td><a href="mailto:gd@jaboatao.ifpe.edu.br">gd@jaboatao.ifpe.edu.br</a></td></tr>
+        <tr><td>Direção de Ensino</td><td><a href="mailto:den@jaboatao.ifpe.edu.br">den@jaboatao.ifpe.edu.br</a></td></tr>
+        <tr><td>Direção de Administração e Planejamento</td><td><a href="mailto:dap@jaboatao.ifpe.edu.br">dap@jaboatao.ifpe.edu.br</a></td></tr>
+        <tr><td>Divisão de Pesquisa e Extensão</td><td><a href="mailto:dpex@jaboatao.ifpe.edu.br">dpex@jaboatao.ifpe.edu.br</a></td></tr>
+        <tr><td>Coordenação ADS</td><td><a href="mailto:coordenacao.ads@jaboatao.ifpe.edu.br">coordenacao.ads@jaboatao.ifpe.edu.br</a></td></tr>
+        <tr><td>CRADT (Secretaria)</td><td><a href="mailto:atendimento.secretaria@jaboatao.ifpe.edu.br">atendimento.secretaria@jaboatao.ifpe.edu.br</a></td></tr>
+        <tr><td>Biblioteca</td><td><a href="mailto:biblioteca@jaboatao.ifpe.edu.br">biblioteca@jaboatao.ifpe.edu.br</a></td></tr>
         <tr>
-  <td>Gabinete da Direção-Geral</td>
-  <td><a href="mailto:gd@jaboatao.ifpe.edu.br">gd@jaboatao.ifpe.edu.br</a></td>
-</tr>
-
-<tr>
-  <td>Direção de Ensino</td>
-  <td><a href="mailto:den@jaboatao.ifpe.edu.br">den@jaboatao.ifpe.edu.br</a></td>
-</tr>
-
-<tr>
-  <td>Direção de Administração e Planejamento</td>
-  <td><a href="mailto:dap@jaboatao.ifpe.edu.br">dap@jaboatao.ifpe.edu.br</a></td>
-</tr>
-
-<tr>
-  <td>Divisão de Pesquisa e Extensão</td>
-  <td><a href="mailto:dpex@jaboatao.ifpe.edu.br">dpex@jaboatao.ifpe.edu.br</a></td>
-</tr>
-
-<tr>
-  <td>Coordenação do Tecnólogo em Análise e Desenvolvimento de Sistemas</td>
-  <td><a href="mailto:coordenacao.ads@jaboatao.ifpe.edu.br">coordenacao.ads@jaboatao.ifpe.edu.br</a></td>
-</tr>
-
-<tr>
-  <td>Coordenação do Técnico em Informática para Internet</td>
-  <td><a href="mailto:cipi@jaboatao.ifpe.edu.br">cipi@jaboatao.ifpe.edu.br</a></td>
-</tr>
-
-<tr>
-  <td>Coordenação do Técnico em Qualidade</td>
-  <td><a href="mailto:cctq@jaboatao.ifpe.edu.br">cctq@jaboatao.ifpe.edu.br</a></td>
-</tr>
-
-<tr>
-  <td>CRADT (Secretaria)</td>
-  <td><a href="mailto:atendimento.secretaria@jaboatao.ifpe.edu.br">atendimento.secretaria@jaboatao.ifpe.edu.br</a></td>
-</tr>
-
-<tr>
-  <td>Biblioteca</td>
-  <td><a href="mailto:biblioteca@jaboatao.ifpe.edu.br">biblioteca@jaboatao.ifpe.edu.br</a></td>
-</tr>
-
-<tr>
-  <td>Coordenadoria de Monitoria</td>
-  <td><a href="mailto:monitoria@jaboatao.ifpe.edu.br">monitoria@jaboatao.ifpe.edu.br</a></td>
-</tr>
-
-<tr>
-  <td>Divisão de Assistência ao Ensino e ao Estudante (DAEE)</td>
-  <td>
-    <a href="mailto:daee@jaboatao.ifpe.edu.br">daee@jaboatao.ifpe.edu.br</a><br>
-    <small>Fale com a DAEE: (81) 99348-4312</small>
-  </td>
-</tr>
-
-<tr>
-  <td>Coordenadoria de Psicologia</td>
-  <td><a href="mailto:anamelia.mello@jaboatao.ifpe.edu.br">anamelia.mello@jaboatao.ifpe.edu.br</a></td>
-</tr>
-
-<tr>
-  <td>Assessoria Pedagógica</td>
-  <td>
-    <a href="mailto:adriana.assis@jaboatao.ifpe.edu.br">adriana.assis@jaboatao.ifpe.edu.br</a><br>
-    <a href="mailto:graciele.gomes@jaboatao.ifpe.edu.br">graciele.gomes@jaboatao.ifpe.edu.br</a>
-  </td>
-</tr>
-
-<tr>
-  <td>Coordenação do Técnico Integrado ao Médio em Desenvolvimento de Sistemas</td>
-  <td><a href="mailto:ctimds@jaboatao.ifpe.edu.br">ctimds@jaboatao.ifpe.edu.br</a></td>
-</tr>
+          <td>DAEE</td>
+          <td>
+            <a href="mailto:daee@jaboatao.ifpe.edu.br">daee@jaboatao.ifpe.edu.br</a>
+            <small>(81) 99348-4312</small>
+          </td>
+        </tr>
       </table>
     </div>
 
   </div>
 </div>
 
-<!-- ===== NAVBAR ===== -->
 <div class="navbar">
-
   <a href="/perfil" class="nav-item">
-    <img class="foto-perfil"
-      src="{{ usuario.foto if usuario.foto else url_for('static', filename='fotoexemplo.jpg') }}"
-      alt="Perfil">
+    <img class="foto-perfil" src="{{ usuario.foto if usuario.foto else url_for('static', filename='fotoexemplo.jpg') }}">
     <span>Perfil</span>
   </a>
-
   <a href="/home" class="nav-item">
-    <img src="{{ url_for('static', filename='homeimg.webp') }}" class="icon-img" alt="Home">
+    <img src="{{ url_for('static', filename='homeimg.webp') }}" class="icon-img">
     <span>Home</span>
   </a>
-
   <a href="/config" class="nav-item">
-    <img src="{{ url_for('static', filename='configimg.jpg') }}" class="icon-img" alt="Config">
+    <img src="{{ url_for('static', filename='configimg.jpg') }}" class="icon-img">
     <span>Config</span>
   </a>
-
 </div>
 
 <script>
-function mostrarHorarios(){
-  const horarios=["07:15 - 08:00","08:00 - 08:45","08:45 - 09:30","09:45 - 10:30","10:30 - 11:15","11:15 - 12:00","12:00 - 12:45"];
-  const aulas=grade[serie.value]?.[turma.value]?.[dia.value];
-  scheduleList.innerHTML=aulas
-    ? aulas.map((a,i)=>`<div class="schedule-item"><span>${a}</span><span>${horarios[i]}</span></div>`).join("")
-    : "<p>Sem aulas.</p>";
-}
-
 function toggleApoio(){
-  apoioBox.style.display=apoioBox.style.display==="none"?"block":"none";
-  horariosBox.style.display=apoioBox.style.display==="none"?"block":"none";
+  apoioBox.style.display =
+    apoioBox.style.display === "none" ? "block" : "none";
 }
 </script>
 
 </body>
 </html>
-
-
