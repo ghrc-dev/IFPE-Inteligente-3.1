@@ -376,9 +376,25 @@ for(let i=0;i<28;i++){
 
 </div>
 <div class="navbar">
-  <a href="/perfil">👤</a>
-  <a href="/home">🏠</a>
-  <a href="/config">⚙️</a>
+
+  <a href="/perfil" class="nav-item">
+    <img 
+      class="foto-perfil"
+      src="{{ usuario.foto if usuario.foto else url_for('static', filename='fotoexemplo.jpg') }}"
+      alt="Perfil">
+    <span>Perfil</span>
+  </a>
+
+  <a href="/home" class="nav-item">
+    <img src="{{ url_for('static', filename='homeimg.png') }}" class="icon-img">
+    <span>Home</span>
+  </a>
+
+  <a href="/config" class="nav-item">
+    <img src="{{ url_for('static', filename='configimg.png') }}" class="icon-img">
+    <span>Config</span>
+  </a>
+
 </div>
 <script>
 const horarios = [
@@ -605,6 +621,7 @@ function toggleApoio(){
 
 </body>
 </html>
+
 
 
 
