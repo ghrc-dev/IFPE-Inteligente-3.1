@@ -12,236 +12,237 @@
 <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
 
 <style>
-  .filters{
-  display:flex;
-  gap:8px;
-  margin-bottom:12px;
-}
+   .filters{
+    display:flex;
+    gap:8px;
+    margin-bottom:12px;
+  }
 
-.filters select,
-.filters button{
-  flex:1;
-  padding:8px;
-  border-radius:10px;
-  border:none;
-  font-size:13px;
-}
+  .filters select,
+  .filters button{
+    flex:1;
+    padding:8px;
+    border-radius:10px;
+    border:none;
+    font-size:13px;
+  }
 
-.filters button{
-  background:#11FF89;
-  font-weight:700;
-}
+  .filters button{
+    background:#11FF89;
+    font-weight:700;
+  }
 
   #loading{
-  position:fixed;
-  inset:0;
-  background: linear-gradient(180deg, #7A2BFF 0%, #19CFFF 100%);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
+    position:fixed;
+    inset:0;
+    background: linear-gradient(180deg, #7A2BFF 0%, #19CFFF 100%);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+  }
 
-.loader-box{
-  text-align:center;
-  color:#fff;
-}
+  .loader-box{
+    text-align:center;
+    color:#fff;
+  }
 
-.recycle{
-  font-size:70px;
-  animation: spin 1.5s linear infinite;
-  margin-bottom:10px;
-}
+  .recycle{
+    font-size:50px;
+    animation: spin 1.5s linear infinite;
+    margin-bottom:10px;
+  }
 
-.loader-box h2{
-  font-size:22px;
-  font-weight:700;
-}
+  .loader-box h2{
+    font-size:20px;
+    font-weight:700;
+  }
 
-.loader-box p{
-  font-size:14px;
-  opacity:.95;
-}
+  .loader-box p{
+    font-size:14px;
+    opacity:.95;
+  }
 
-/* animação */
-@keyframes spin{
-  from{transform:rotate(0deg)}
-  to{transform:rotate(360deg)}
-}
-   /* ===== NAVBAR ===== */
-.navbar{
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  background:#0A1B7E;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  padding:10px 0;
-  z-index:10;
-}
+  @keyframes spin{
+    from{transform:rotate(0deg)}
+    to{transform:rotate(360deg)}
+  }
 
-.nav-item{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:4px;
-  text-decoration:none;
-  color:#fff;
-  font-size:12px;
-}
+  *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+  }
 
-.nav-item:hover{
-  opacity:.85;
-}
-   .icon-img{
+  body{
+    min-height:100vh;
+    background: linear-gradient(180deg, #7A2BFF 0%, #5C6BFF 50%, #3A4BB8 100%);
+    color:#fff;
+    overflow-x:hidden;
+  }
+
+  .particle{
+    position:absolute;
+    border-radius:50%;
+    opacity:.9;
+    animation: float 6s ease-in-out infinite;
+    z-index:-1;
+  }
+  .blue{background:#00C2FF}
+  .green{background:#11FF89}
+  .yellow{background:#FFD447}
+  .pink{background:#FF5C8D}
+
+  @keyframes float{
+    0%{transform:translateY(0)}
+    50%{transform:translateY(-14px)}
+    100%{transform:translateY(0)}
+  }
+
+  .container{
+    max-width:420px;
+    margin:0 auto;
+    padding:20px 16px 40px;
+  }
+
+  .header{
+    text-align:center;
+    margin-bottom:24px;
+  }
+
+  .header img{
+    width:60px;
+    margin-bottom:8px;
+  }
+
+  .header h1{
+    font-size:20px;
+    font-weight:700;
+    letter-spacing:1px;
+  }
+
+  .header h2{
+    font-size:18px;
+    font-weight:600;
+  }
+
+  .card{
+    background:#1FB7C9;
+    border-radius:24px;
+    padding:18px;
+    position:relative;
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+  }
+
+  .card-top{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:12px;
+  }
+
+  .card-top img{
+    width:30px;
+  }
+
+  .card-top h3{
+    font-size:20px;
+    font-weight:700;
+  }
+
+  .card p{
+    font-size:14px;
+    margin-bottom:16px;
+  }
+
+  .buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:16px;
+  }
+
+  .btn{
+    border:none;
+    border-radius:18px;
+    padding:8px 14px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+  }
+
+  .btn.blue{background:#0A3D91;color:#fff; text-decoration-line: none;}
+  .btn.yellow{background:#FFD447;color:#333; text-decoration-line: none;}
+  .btn.green{background:#20E3A2;color:#003B2A; text-decoration-line: none;}
+
+  .schedule{
+    background:#F2F2F2;
+    border-radius:18px;
+    padding:12px;
+    color:#0A1B7E;
+  }
+
+  .schedule h4{
+    text-align:center;
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:8px;
+  }
+
+  .schedule-item{
+    font-size:13px;
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:6px;
+  }
+
+  .robot{
+    position:absolute;
+    right:-6px;
+    bottom:120px;
+    width:60px;
+  }
+
+  /* NAVBAR */
+  .navbar{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:#0A1B7E;
+    display:flex;
+    justify-content:space-evenly;
+    align-items:center;
+    padding:8px 0;
+    z-index:10;
+    box-shadow: 0 -3px 10px rgba(0,0,0,0.2);
+  }
+
+  .nav-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
+    text-decoration:none;
+    color:#fff;
+    font-size:11px;
+  }
+
+  .nav-item:hover{
+    opacity:.85;
+  }
+
+  .icon-img{
     width:18px;
     height:auto;
   }
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins', sans-serif;
-}
 
-body{
-  min-height:100vh;
-  background: linear-gradient(180deg, #7A2BFF 0%, #5C6BFF 50%, #3A4BB8 100%);
-  color:#fff;
-  overflow-x:hidden;
-}
-
-/* partículas */
-.particle{
-  position:absolute;
-  border-radius:50%;
-  opacity:.9;
-  animation: float 6s ease-in-out infinite;
-  z-index:-1;
-}
-.blue{background:#00C2FF}
-.green{background:#11FF89}
-.yellow{background:#FFD447}
-.pink{background:#FF5C8D}
-
-@keyframes float{
-  0%{transform:translateY(0)}
-  50%{transform:translateY(-14px)}
-  100%{transform:translateY(0)}
-}
-
-.container{
-  max-width:420px;
-  margin:0 auto;
-  padding:20px 16px 40px;
-}
-
-/* header */
-.header{
-  text-align:center;
-  margin-bottom:24px;
-}
-
-.header img{
-  width:85px;
-  margin-bottom:8px;
-}
-
-.header h1{
-  font-size:20px;
-  font-weight:700;
-  letter-spacing:1px;
-}
-
-.header h2{
-  font-size:18px;
-  font-weight:600;
-}
-
-/* card HelpMe */
-.card{
-  background:#1FB7C9;
-  border-radius:24px;
-  padding:18px;
-  position:relative;
-  box-shadow:0 10px 25px rgba(0,0,0,.25);
-}
-
-/* topo do card */
-.card-top{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-bottom:12px;
-}
-
-.card-top img{
-  width:36px;
-}
-
-.card-top h3{
-  font-size:20px;
-  font-weight:700;
-}
-
-/* texto */
-.card p{
-  font-size:14px;
-  margin-bottom:16px;
-}
-
-/* botões */
-.buttons{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:16px;
-}
-
-.btn{
-  border:none;
-  border-radius:18px;
-  padding:8px 14px;
-  font-size:13px;
-  font-weight:600;
-  cursor:pointer;
-}
-
-.btn.blue{background:#0A3D91;color:#fff; text-decoration-line: none;}
-.btn.yellow{background:#FFD447;color:#333; text-decoration-line: none;}
-.btn.green{background:#20E3A2;color:#003B2A; text-decoration-line: none;}
-
-/* horários */
-.schedule{
-  background:#F2F2F2;
-  border-radius:18px;
-  padding:12px;
-  color:#0A1B7E;
-}
-
-.schedule h4{
-  text-align:center;
-  font-size:14px;
-  font-weight:700;
-  margin-bottom:8px;
-}
-
-.schedule-item{
-  font-size:13px;
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:6px;
-}
-
-/* robô */
-.robot{
-  position:absolute;
-  right:-6px;
-  bottom:120px;
-  width:85px;
-}
+  .foto-perfil{
+    width:22px;
+    height:22px;
+    border-radius:50%;
+  }
 </style>
 </head>
 
@@ -387,25 +388,18 @@ for(let i=0;i<28;i++){
 
 </div>
 <div class="navbar">
-
   <a href="/perfil" class="nav-item">
-    <img 
-      class="foto-perfil"
-      src="{{ usuario.foto if usuario.foto else url_for('static', filename='fotoexemplo.jpg') }}"
-      alt="Perfil">
+    <img class="foto-perfil" src="{{ usuario.foto if usuario.foto else url_for('static', filename='fotoexemplo.jpg') }}" alt="Perfil">
     <span>Perfil</span>
   </a>
-
   <a href="/home" class="nav-item">
     <img src="{{ url_for('static', filename='homeimg.png') }}" class="icon-img">
     <span>Home</span>
   </a>
-
   <a href="/config" class="nav-item">
     <img src="{{ url_for('static', filename='configimg.png') }}" class="icon-img">
     <span>Config</span>
   </a>
-
 </div>
 <script>
 const horarios = [
@@ -632,6 +626,7 @@ function toggleApoio(){
 
 </body>
 </html>
+
 
 
 
