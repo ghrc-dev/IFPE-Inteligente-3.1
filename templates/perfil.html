@@ -154,6 +154,14 @@ body{
   border-radius: 50%;
   object-fit: cover;
 }
+.foto-perfill {
+  width:130px;
+  height:130px;
+  border-radius:50%;
+  border:4px solid white;
+  margin:15px auto;
+  object-fit:cover;
+}
 
 .icon {
   font-size: 18px;
@@ -268,7 +276,7 @@ window.addEventListener("load", () => {
 
 <img src="static\logo-removebg-preview.png" class="logo">
 
-<img id="fotoPerfil"
+<img id="fotoPerfill"
      src="{{ usuario.foto if usuario.foto else 'fotoexemplo.jpg' }}"
      class="foto-perfil">
 
@@ -435,5 +443,6 @@ for(let i=0;i<30;i++){
 
 </body>
 </html>
+
 
 
