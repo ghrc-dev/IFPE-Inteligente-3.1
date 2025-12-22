@@ -1,337 +1,528 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>HelpMe IFPE</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IFPE Flow</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
-}
-
-body{
-  background:#f4f6fc;
-  padding-bottom:80px;
+  <style>
+    .nav-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
 }
 
-/* LOADING */
-#loading{
-  position:fixed;
-  inset:0;
-  background:#0A1B7E;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-  font-size:22px;
-  z-index:99;
-  transition:.4s;
+.nav-item:hover {
+  color: #007bff;
 }
 
-/* TOPO */
-header{
-  padding:15px;
-  background:#0A1B7E;
-  color:#fff;
-  text-align:center;
-  font-weight:600;
+.foto-perfil {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-/* PESQUISA */
-.pesquisa{
-  padding:15px;
+.icon {
+  font-size: 18px;
 }
-.pesquisa input{
-  width:100%;
-  padding:10px;
-  border-radius:8px;
-  border:1px solid #ccc;
-}
+    /* ===== RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
 
-/* SEÇÕES */
-section{
-  padding:15px;
-}
-section h3{
-  margin-bottom:10px;
-}
+    /* ===== FUNDO (IGUAL AO HOME) ===== */
+    body {
+      min-height: 100vh;
+      background: linear-gradient(180deg, #7A2BFF 0%, #4B5BFF 50%, #2E3C9E 100%);
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-/* ITENS */
-.item{
-  background:#fff;
-  padding:12px;
-  border-radius:10px;
-  margin-bottom:10px;
-  cursor:pointer;
-  border-left:6px solid #ccc;
-}
-.item span{
-  float:right;
-  font-weight:600;
-}
-.item.livre{border-color:#1cc88a}
-.item.ocupada{border-color:#e74a3b}
+    /* ===== PARTÍCULAS (BOLINHAS) ===== */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: .9;
+      animation: float 6s ease-in-out infinite;
+      z-index: -1;
+      pointer-events: none;
+    }
 
-.info{
-  margin-top:8px;
-  font-size:14px;
-  color:#555;
-}
+    .blue {
+      background: #00C2FF
+    }
 
-/* AVISO */
-#avisoLivres{
-  text-align:center;
-  color:#777;
-}
+    .green {
+      background: #11FF89
+    }
 
-/* MODAL */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:20;
-}
-.modal-content{
-  background:#fff;
-  padding:20px;
-  border-radius:12px;
-  width:90%;
-  max-width:320px;
-}
-.modal-content h3{
-  margin-bottom:10px;
-}
-.modal-content input{
-  width:100%;
-  padding:8px;
-  margin:6px 0;
-}
-.modal-actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:10px;
-  margin-top:10px;
-}
-.btn-cancel{
-  background:#ccc;
-  border:none;
-  padding:8px 12px;
-  border-radius:6px;
-}
-.btn-ok{
-  background:#0A1B7E;
-  color:#fff;
-  border:none;
-  padding:8px 12px;
-  border-radius:6px;
-}
+    .yellow {
+      background: #FFD447
+    }
 
-/* NAVBAR */
-  .navbar{
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:#0A1B7E;
-    display:flex;
-    justify-content:space-evenly;
-    align-items:center;
-    padding:8px 0;
-    z-index:10;
-    box-shadow: 0 -3px 10px rgba(0,0,0,0.2);
-  }
+    .pink {
+      background: #FF5C8D
+    }
 
-  .nav-item{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:2px;
-    text-decoration:none;
-    color:#fff;
-    font-size:11px;
-  }
+    @keyframes float {
+      0% {
+        transform: translateY(0)
+      }
 
-  .nav-item:hover{
-    opacity:.85;
-  }
+      50% {
+        transform: translateY(-14px)
+      }
 
-  .icon-img{
-    width:18px;
-    height:auto;
-  }
+      100% {
+        transform: translateY(0)
+      }
+    }
 
-  .foto-perfil{
-    width:22px;
-    height:22px;
-    border-radius:50%;
-  }
-</style>
+    /* ===== LOADING ===== */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, #7A2BFF 0%, #19CFFF 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .loader-box {
+      text-align: center;
+      color: #fff;
+    }
+
+    .recycle {
+      font-size: 70px;
+      animation: spin 1.5s linear infinite;
+      margin-bottom: 10px;
+    }
+
+    .loader-box h2 {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .loader-box p {
+      font-size: 14px;
+      opacity: .95;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg)
+      }
+
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    /* ===== CONTAINER ===== */
+    .container {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 20px 18px 90px;
+      z-index: 2;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .header h1 {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    /* ===== CARD (ESTILO HOME) ===== */
+    .card {
+      background: rgba(255, 255, 255, .14);
+      backdrop-filter: blur(12px);
+      border-radius: 22px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, .25);
+    }
+
+    /* ===== BOTÕES / INPUT ===== */
+    .add-sala {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 32px;
+      background: #47E895;
+      color: #003A1A;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      cursor: pointer;
+    }
+
+    #pesquisa {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 14px;
+      margin-bottom: 14px;
+      font-size: 14px;
+    }
+
+    /* ===== SEÇÕES ===== */
+    .secao {
+      margin: 18px 0 8px;
+      font-size: 16px;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(255, 255, 255, .4);
+      padding-bottom: 4px;
+    }
+
+    /* ===== LISTAS ===== */
+    .lista {
+      max-height: 220px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .lista::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .lista::-webkit-scrollbar-thumb {
+      background: #ffffff50;
+      border-radius: 10px;
+    }
+
+    /* ===== ITEM ===== */
+    .item {
+      display: flex;
+      flex-direction: column;
+      padding: 14px;
+      border-radius: 16px;
+      margin-bottom: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, .25);
+    }
+
+    .livre {
+      background: #43E06C;
+      color: #003A1A
+    }
+
+    .ocupada {
+      background: #FF5C5C;
+      color: #fff
+    }
+
+    .item span {
+      align-self: flex-end;
+      background: rgba(0, 0, 0, .2);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+    }
+
+    .info {
+      font-size: 13px;
+      margin-top: 6px;
+      opacity: .95;
+    }
+
+    /* ===== AVISO ===== */
+    #avisoLivres {
+      display: none;
+      text-align: center;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    /* ===== NAVBAR (IGUAL HOME) ===== */
+    .navbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #0A1B7E;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      z-index: 1;
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ===== MODAL ===== */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #fff;
+      color: #000;
+      width: 90%;
+      max-width: 340px;
+      border-radius: 18px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .modal-actions button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-ok {
+      background: #47E895;
+      color: #003A1A
+    }
+
+    .btn-cancel {
+      background: #ff4040;
+      color: #fff
+    }
+
+    /* ===== DESKTOP ===== */
+    @media (min-width:768px) {
+      .lista {
+        max-height: 300px
+      }
+
+      .navbar a {
+        font-size: 16px
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <script>
+    const colors = ["blue", "green", "yellow", "pink"];
+    for (let i = 0; i < 30; i++) {
+      const b = document.createElement('span');
+      b.className = particle ${colors[Math.floor(Math.random() * colors.length)]};
+      const s = Math.floor(Math.random() * 10) + 6;
+      b.style.width = s + 'px';
+      b.style.height = s + 'px';
+      b.style.top = Math.random() * 100 + '%';
+      b.style.left = Math.random() * 100 + '%';
+      b.style.animationDelay = Math.random() * 5 + 's';
+      document.body.appendChild(b);
+    }
+  </script>
 
-<div id="loading">Carregando...</div>
-
-<header>HelpMe IFPE</header>
-
-<div class="pesquisa">
-  <input id="pesquisa" placeholder="Pesquisar local..." oninput="carregarLocais()">
-</div>
-
-<section>
-  <h3>Salas</h3>
-  <div id="salas"></div>
-</section>
-
-<section>
-  <h3>Laboratórios</h3>
-  <div id="labs"></div>
-</section>
-
-<section>
-  <h3>Áreas</h3>
-  <div id="areas"></div>
-</section>
-
-<section>
-  <h3>Ocupadas</h3>
-  <div id="ocupadas"></div>
-  <p id="avisoLivres">Nenhum local ocupado</p>
-</section>
-
-<!-- MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <h3 id="modalTitulo"></h3>
-    <input id="modalTurma" placeholder="Turma">
-    <input id="modalHorario" placeholder="Até que horas?">
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
-      <button class="btn-ok" onclick="confirmarModal()">Confirmar</button>
+  <!-- LOADING -->
+  <div id="loading">
+    <div class="loader-box">
+      <div class="recycle">♻️</div>
+      <h2>IFPE + Inteligente</h2>
+      <p>Carregando práticas sustentáveis...</p>
     </div>
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <img style="width: 10%;" src="{{ url_for('static',filename='flow.png') }}">
+      <h2>PLATAFORMA</h2>
+      <h1>IFPE + INTELIGENTE</h1>
+    </div>
+
+    <div class="card">
+      <h2>IFPE Flow</h2>
+
+      <button class="add-sala" onclick="adicionarLocal()">➕ Adicionar Local</button>
+      <input id="pesquisa" placeholder="🔍 Procurar local..." onkeyup="carregarLocais()">
+
+
+      <h3 class="secao">🚫 Ocupadas</h3>
+      <div id="ocupadas" class="lista"></div>
+      <div id="avisoLivres">✅ Todas livres</div>
+
+      <h3 class="secao">🏫 Salas</h3>
+      <div id="salas" class="lista"></div>
+
+      <h3 class="secao">🧪 Laboratórios</h3>
+      <div id="labs" class="lista"></div>
+
+      <h3 class="secao">🌳 Áreas Diversas</h3>
+      <div id="areas" class="lista"></div>
+    </div>
+  </div>
+
+ <div class="navbar">
+  <!-- Lado esquerdo -->
+  <div class="nav-left">
+    <a href="/perfil" class="nav-item">
+      <img 
+        id="fotoPerfil"
+        class="foto-perfil"
+        src="{{ usuario.foto if usuario.foto else url_for('static', filename='fotoexemplo.jpg') }}"
+        alt="Perfil">
+      <span>Perfil</span>
+    </a>
+  </div>
+
+  <!-- Lado direito -->
+  <div class="navbar">
+    <a href="/home" class="nav-item">
+      <span class="icon">🏠</span>
+      <span>Home</span>
+    </a>
+
+    <a href="/config" class="nav-item">
+      <span class="icon">⚙️</span>
+      <span>Configuração</span>
+    </a>
   </div>
 </div>
 
-<!-- NAVBAR -->
-<div class="navbar">
-  <a href="/perfil" class="nav-item">
-    <img class="foto-perfil"
-      src="{{ usuario.foto if usuario.foto else url_for('static', filename='fotoexemplo.jpg') }}">
-    <span>Perfil</span>
-  </a>
 
-  <a href="/home" class="nav-item">
-    <img src="{{ url_for('static', filename='homeimg.png') }}" class="icon-img">
-    <span>Home</span>
-  </a>
+  <!-- MODAL -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h3 id="modalTitulo"></h3>
+      <input id="modalTurma" placeholder="Turma">
+      <input id="modalHorario" input type="time">
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
+        <button class="btn-ok" onclick="confirmarModal()">Confirmar</button>
+      </div>
+    </div>
+  </div>
 
-  <a href="/config" class="nav-item">
-    <img src="{{ url_for('static', filename='configimg.png') }}" class="icon-img">
-    <span>Config</span>
-  </a>
-</div>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script>
 
-<script>
-const loading = document.getElementById("loading");
-const salas = document.getElementById("salas");
-const labs = document.getElementById("labs");
-const areas = document.getElementById("areas");
-const ocupadas = document.getElementById("ocupadas");
-const avisoLivres = document.getElementById("avisoLivres");
-const pesquisa = document.getElementById("pesquisa");
-const modal = document.getElementById("modal");
-const modalTitulo = document.getElementById("modalTitulo");
-const modalTurma = document.getElementById("modalTurma");
-const modalHorario = document.getElementById("modalHorario");
+    window.addEventListener("load", () => {
+      loading.style.opacity = 0;
+      setTimeout(() => loading.style.display = "none", 400);
+    });
 
-window.addEventListener("load",()=>{
-  loading.style.opacity=0;
-  setTimeout(()=>loading.style.display="none",400);
-});
+    firebase.initializeApp({
+      apiKey: "AIzaSyA23RqXJ2Z92E-B19hajBi5uumh6XbGvpw",
+      authDomain: "integra-tech.firebaseapp.com",
+      projectId: "integra-tech"
+    });
 
-firebase.initializeApp({
-  apiKey:"AIzaSyA23RqXJ2Z92E-B19hajBi5uumh6XbGvpw",
-  authDomain:"integra-tech.firebaseapp.com",
-  projectId:"integra-tech"
-});
+    const db = firebase.firestore();
+    let localAtual = null, refAtual = null;
 
-const db = firebase.firestore();
-let localAtual=null, refAtual=null;
+    async function carregarLocais() {
+      salas.innerHTML = "";
+      labs.innerHTML = "";
+      areas.innerHTML = "";
+      ocupadas.innerHTML = "";
 
-async function carregarLocais(){
-  salas.innerHTML=labs.innerHTML=areas.innerHTML=ocupadas.innerHTML="";
-  let existeOcupada=false;
-  const termo=pesquisa.value.toLowerCase();
+      const termo = pesquisa.value.toLowerCase();
+      let existeOcupada = false;
 
-  const snap=await db.collection("locais").get();
-  snap.forEach(d=>{
-    const s=d.data();
-    if(!s.nome.toLowerCase().includes(termo))return;
+      const snap = await db.collection("locais").get();
+      snap.forEach(d => {
+        const s = d.data();
+        if (!s.nome.toLowerCase().includes(termo)) return;
 
-    const div=document.createElement("div");
-    div.className=`item ${s.status}`;
-    div.innerHTML=`
+        const div = document.createElement("div");
+        div.className = item ${s.status};
+        div.innerHTML = `
       ${s.nome}
       <span>${s.status.toUpperCase()}</span>
-      ${s.status==="ocupada"?`
+      ${s.status === "ocupada" ? `
         <div class="info">
           🏫 ${s.turma}<br>
           ⏰ ${s.horario}
-        </div>`:""}
+        </div>` : ""}
     `;
-    div.onclick=()=>abrirModal(d.ref,s);
+        div.onclick = () => abrirModal(d.ref, s);
 
-    if(s.status==="ocupada"){
-      existeOcupada=true;
-      ocupadas.appendChild(div);
-    }else{
-      if(s.tipo==="lab")labs.appendChild(div);
-      else if(s.tipo==="area")areas.appendChild(div);
-      else salas.appendChild(div);
+        if (s.status === "ocupada") {
+          existeOcupada = true;
+          ocupadas.appendChild(div);
+        } else {
+          if (s.tipo === "lab") labs.appendChild(div);
+          else if (s.tipo === "area") areas.appendChild(div);
+          else salas.appendChild(div);
+        }
+      });
+
+      avisoLivres.style.display = existeOcupada ? "none" : "block";
     }
-  });
 
-  avisoLivres.style.display=existeOcupada?"none":"block";
-}
+    function abrirModal(ref, local) {
+      refAtual = ref; localAtual = local;
+      modalTitulo.innerText = local.status === "livre" ? "Ocupar local" : "Finalizar atividade";
+      modalTurma.style.display = modalHorario.style.display = local.status === "livre" ? "block" : "none";
+      modal.style.display = "flex";
+    }
+    function fecharModal() { modal.style.display = "none" }
+    async function confirmarModal() {
+      if (localAtual.status === "livre") {
+        await refAtual.update({
+          status: "ocupada",
+          turma: modalTurma.value,
+          horario: modalHorario.value
+        });
+      } else {
+        await refAtual.update({ status: "livre", turma: "", horario: "" });
+      }
+      fecharModal(); carregarLocais();
+    }
+    function adicionarLocal() {
+      const nome = prompt("Nome:");
+      const tipo = prompt("sala / lab / area");
+      if (nome && tipo) db.collection("locais").add({ nome, tipo, status: "livre", turma: "", horario: "" });
+    }
 
-function abrirModal(ref,local){
-  refAtual=ref; localAtual=local;
-  modalTitulo.innerText=local.status==="livre"?"Ocupar local":"Finalizar atividade";
-  modalTurma.style.display=modalHorario.style.display=local.status==="livre"?"block":"none";
-  modal.style.display="flex";
-}
-
-function fecharModal(){modal.style.display="none"}
-
-async function confirmarModal(){
-  if(localAtual.status==="livre"){
-    await refAtual.update({
-      status:"ocupada",
-      turma:modalTurma.value,
-      horario:modalHorario.value
-    });
-  }else{
-    await refAtual.update({status:"livre",turma:"",horario:""});
-  }
-  fecharModal(); carregarLocais();
-}
-
-carregarLocais();
-</script>
-
+    carregarLocais();
+  </script>
 </body>
-</html>
 
+
+</html>
