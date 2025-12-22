@@ -348,13 +348,13 @@
   <input id="pesquisa" placeholder="Pesquisar local..." oninput="carregarLocais()">
 
   <h3>Salas</h3>
-  <div id="salas"></div>
+<div id="salas" class="lista"></div>
 
-  <h3>Laboratórios</h3>
-  <div id="labs"></div>
+<h3>Laboratórios</h3>
+<div id="labs" class="lista"></div>
 
-  <h3>Áreas</h3>
-  <div id="areas"></div>
+<h3>Áreas</h3>
+<div id="areas" class="lista"></div>
 
   <h3>Ocupadas</h3>
   <div id="ocupadas"></div>
@@ -367,7 +367,7 @@
   <div class="modal-content">
     <h3 id="modalTitulo"></h3>
     <input id="modalTurma" placeholder="Turma">
-    <input id="modalHorario" placeholder="Até que horas?">
+    <input type="time" id="modalHorario" placeholder="Até que horas?">
     <div class="modal-actions">
       <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
       <button class="btn-ok" onclick="confirmarModal()">Confirmar</button>
@@ -489,5 +489,6 @@ for(let i=0;i<26;i++){
 
 </body>
 </html>
+
 
 
